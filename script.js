@@ -1,365 +1,390 @@
 /* =========================================================
-   AHMIE SITE — COMPLETE SCRIPT
-   Flow:
-   Password
-   → 9 Questions
-   → Ahmie Choice
-   → Love Letter
-   → Dating Questions
-   → Our Memories
-   → Fullscreen Viewer
-   → Cinematic Animation
-   → Final
+   AHMIE SITE — COMPLETE JS
+   PASSWORD → 9 QUESTIONS → CHOICE → LETTER
+   → DATING → MEMORIES → VIEWER → ANIMATION → FINAL
 ========================================================= */
 
+document.addEventListener("DOMContentLoaded", () => {
 
-/* =========================================================
-   SETTINGS
-========================================================= */
+  /* =======================================================
+     SETTINGS
+  ======================================================= */
 
-const PASSWORD = "2628";
+  const PASSWORD = "2628";
 
-const INSTAGRAM_USERNAME = "AHME-SOLITUDE";
-
-const INSTAGRAM_URL =
-  "https://www.instagram.com/AHME-SOLITUDE/";
+  const INSTAGRAM_USERNAME = "AHME-SOLITUDE";
 
 
-/* =========================================================
-   SCREEN SYSTEM
-========================================================= */
+  /* =======================================================
+     SCREEN SYSTEM
+  ======================================================= */
 
-const screens = document.querySelectorAll(".screen");
+  const screens = document.querySelectorAll(".screen");
 
-function showScreen(id) {
+  function showScreen(id) {
+    screens.forEach(screen => {
+      screen.classList.remove("active");
+    });
 
-  screens.forEach(screen => {
-    screen.classList.remove("active");
-  });
+    const target = document.getElementById(id);
 
-  const target = document.getElementById(id);
+    if (!target) return;
 
-  if (!target) return;
+    target.classList.add("active");
 
-  target.classList.add("active");
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
 
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
-
-  createGoldBurst();
-}
-
-
-/* =========================================================
-   ELEMENTS
-========================================================= */
-
-const passwordScreen =
-  document.getElementById("passwordScreen");
-
-const passwordInput =
-  document.getElementById("passwordInput");
-
-const unlockButton =
-  document.getElementById("unlockButton");
-
-const codeMessage =
-  document.getElementById("codeMessage");
-
-const passwordContainer =
-  document.querySelector(".password-container");
-
-
-/* =========================================================
-   PASSWORD
-========================================================= */
-
-let passwordUnlocked = false;
-
-passwordInput.addEventListener("input", () => {
-
-  passwordInput.value =
-    passwordInput.value.replace(/\D/g, "");
-
-  if (passwordInput.value.length === 4) {
-    codeMessage.textContent =
-      "Ready? ♡";
-  } else {
-    codeMessage.textContent =
-      "Four digits. That's all. ♡";
-  }
-});
-
-
-function unlockSite() {
-
-  const entered =
-    passwordInput.value.trim();
-
-  if (entered !== PASSWORD) {
-
-    passwordContainer.classList.remove(
-      "password-error"
-    );
-
-    void passwordContainer.offsetWidth;
-
-    passwordContainer.classList.add(
-      "password-error"
-    );
-
-    codeMessage.textContent =
-      "Not quite... try again. ♡";
-
-    codeMessage.classList.remove(
-      "success"
-    );
-
-    passwordInput.value = "";
-
-    passwordInput.focus();
-
-    return;
+    createGoldBurst();
   }
 
 
-  passwordUnlocked = true;
+  /* =======================================================
+     ELEMENTS
+  ======================================================= */
 
-  codeMessage.textContent =
-    "Unlocked. Welcome in. ♡";
+  const passwordInput =
+    document.getElementById("passwordInput");
 
-  codeMessage.classList.add(
-    "success"
-  );
+  const unlockButton =
+    document.getElementById("unlockButton");
 
-  passwordContainer.classList.add(
-    "password-success"
-  );
+  const codeMessage =
+    document.getElementById("codeMessage");
 
-  unlockButton.disabled = true;
-
-  createHeartBurst();
-
-
-  setTimeout(() => {
-
-    unlockButton.disabled = false;
-
-    showScreen("questionsScreen");
-
-    startQuestionSystem();
-
-  }, 1100);
-}
+  const passwordContainer =
+    document.querySelector(".password-container");
 
 
-unlockButton.addEventListener(
-  "click",
-  unlockSite
-);
+  /* =======================================================
+     PASSWORD
+  ======================================================= */
+
+  if (passwordInput) {
+
+    passwordInput.addEventListener("input", () => {
+
+      /* Only numbers */
+      passwordInput.value =
+        passwordInput.value.replace(/\D/g, "");
+
+      /* Maximum 4 digits */
+      passwordInput.value =
+        passwordInput.value.slice(0, 4);
+
+      if (passwordInput.value.length === 4) {
+
+        codeMessage.textContent =
+          "Ready? Press UNLOCK. ♡";
+
+      } else {
+
+        codeMessage.textContent =
+          "Four digits. That's all. ♡";
+
+      }
+
+    });
 
 
-passwordInput.addEventListener(
-  "keydown",
-  event => {
+    passwordInput.addEventListener("keydown", event => {
 
-    if (event.key === "Enter") {
+      if (event.key === "Enter") {
 
-      event.preventDefault();
+        event.preventDefault();
 
-      unlockSite();
+        unlockSite();
+
+      }
+
+    });
+
+  }
+
+
+  if (unlockButton) {
+
+    unlockButton.addEventListener(
+      "click",
+      unlockSite
+    );
+
+  }
+
+
+  function unlockSite() {
+
+    if (!passwordInput) return;
+
+    const entered =
+      passwordInput.value.trim();
+
+
+    /* WRONG PASSWORD */
+
+    if (entered !== PASSWORD) {
+
+      if (passwordContainer) {
+
+        passwordContainer.classList.remove(
+          "password-error"
+        );
+
+        void passwordContainer.offsetWidth;
+
+        passwordContainer.classList.add(
+          "password-error"
+        );
+
+      }
+
+      if (codeMessage) {
+
+        codeMessage.textContent =
+          "Wrong code... try again. ♡";
+
+        codeMessage.classList.remove(
+          "success"
+        );
+
+      }
+
+      passwordInput.value = "";
+
+      passwordInput.focus();
+
+      return;
 
     }
 
-  }
-);
+
+    /* CORRECT PASSWORD */
+
+    if (codeMessage) {
+
+      codeMessage.textContent =
+        "Unlocked. Welcome in. ♡";
+
+      codeMessage.classList.add(
+        "success"
+      );
+
+    }
 
 
-/* =========================================================
-   9 QUESTIONS
-========================================================= */
+    if (passwordContainer) {
 
-const questions = [
+      passwordContainer.classList.add(
+        "password-success"
+      );
 
-  {
-    title: "Question One",
-    text: "If you could keep one thing forever, what would it be?",
-    options: [
-      "A beautiful memory ♡",
-      "A person who feels like home",
-      "A moment that never ends",
-      "All of the above"
-    ]
-  },
+    }
 
-  {
-    title: "Question Two",
-    text: "What's your perfect little escape?",
-    options: [
-      "A peaceful night",
-      "A long drive",
-      "Somewhere beautiful together",
-      "A cozy place with good vibes"
-    ]
-  },
 
-  {
-    title: "Question Three",
-    text: "What makes a moment unforgettable?",
-    options: [
-      "The person",
-      "The feeling",
-      "The memories",
-      "Everything about it"
-    ]
-  },
+    if (unlockButton) {
 
-  {
-    title: "Question Four",
-    text: "Pick the kind of night you'd choose.",
-    options: [
-      "Stars and silence ✦",
-      "Music and talking",
-      "City lights",
-      "A random adventure"
-    ]
-  },
+      unlockButton.disabled = true;
 
-  {
-    title: "Question Five",
-    text: "What matters most between two people?",
-    options: [
-      "Trust",
-      "Understanding",
-      "Effort",
-      "Never giving up"
-    ]
-  },
+    }
 
-  {
-    title: "Question Six",
-    text: "If we could go anywhere, where would you go?",
-    options: [
-      "Mountains",
-      "Beach",
-      "A beautiful city",
-      "Somewhere neither of us has seen"
-    ]
-  },
 
-  {
-    title: "Question Seven",
-    text: "Choose one little thing.",
-    options: [
-      "Late-night conversations",
-      "Random pictures",
-      "Sharing food",
-      "Laughing over nothing"
-    ]
-  },
+    createHeartBurst();
 
-  {
-    title: "Question Eight",
-    text: "What's stronger?",
-    options: [
-      "Time",
-      "Distance",
-      "Feelings",
-      "A genuine connection"
-    ]
-  },
 
-  {
-    title: "Question Nine",
-    text: "And finally... who are you choosing?",
-    options: [
-      "Someone special",
-      "Your favourite person",
-      "The person reading this",
-      "You already know ♡"
-    ]
+    /* DIRECT NEXT PAGE */
+
+    setTimeout(() => {
+
+      if (unlockButton) {
+        unlockButton.disabled = false;
+      }
+
+      showScreen("questionsScreen");
+
+      startQuestionSystem();
+
+    }, 900);
+
   }
 
-];
+
+  /* =======================================================
+     9 QUESTIONS
+  ======================================================= */
+
+  const questions = [
+
+    {
+      title: "Question One",
+      text: "If you could keep one thing forever, what would it be?",
+      options: [
+        "A beautiful memory ♡",
+        "A person who feels like home",
+        "A moment that never ends",
+        "All of the above"
+      ]
+    },
+
+    {
+      title: "Question Two",
+      text: "What's your perfect little escape?",
+      options: [
+        "A peaceful night",
+        "A long drive",
+        "Somewhere beautiful together",
+        "A cozy place with good vibes"
+      ]
+    },
+
+    {
+      title: "Question Three",
+      text: "What makes a moment unforgettable?",
+      options: [
+        "The person",
+        "The feeling",
+        "The memories",
+        "Everything about it"
+      ]
+    },
+
+    {
+      title: "Question Four",
+      text: "Pick the kind of night you'd choose.",
+      options: [
+        "Stars and silence ✦",
+        "Music and talking",
+        "City lights",
+        "A random adventure"
+      ]
+    },
+
+    {
+      title: "Question Five",
+      text: "What matters most between two people?",
+      options: [
+        "Trust",
+        "Understanding",
+        "Effort",
+        "Never giving up"
+      ]
+    },
+
+    {
+      title: "Question Six",
+      text: "If we could go anywhere, where would you go?",
+      options: [
+        "Mountains",
+        "Beach",
+        "A beautiful city",
+        "Somewhere neither of us has seen"
+      ]
+    },
+
+    {
+      title: "Question Seven",
+      text: "Choose one little thing.",
+      options: [
+        "Late-night conversations",
+        "Random pictures",
+        "Sharing food",
+        "Laughing over nothing"
+      ]
+    },
+
+    {
+      title: "Question Eight",
+      text: "What's stronger?",
+      options: [
+        "Time",
+        "Distance",
+        "Feelings",
+        "A genuine connection"
+      ]
+    },
+
+    {
+      title: "Question Nine",
+      text: "And finally... who are you choosing?",
+      options: [
+        "Someone special",
+        "Your favourite person",
+        "The person reading this",
+        "You already know ♡"
+      ]
+    }
+
+  ];
 
 
-let currentQuestion = 0;
-
-let selectedQuestionAnswer = null;
-
-const questionCounter =
-  document.getElementById("questionCounter");
-
-const questionProgress =
-  document.getElementById("questionProgress");
-
-const questionTitle =
-  document.getElementById("questionTitle");
-
-const questionSubtitle =
-  document.getElementById("questionSubtitle");
-
-const questionStage =
-  document.getElementById("questionStage");
-
-const questionNext =
-  document.getElementById("questionNext");
+  let currentQuestion = 0;
+  let selectedQuestionAnswer = null;
 
 
-function startQuestionSystem() {
+  const questionCounter =
+    document.getElementById("questionCounter");
 
-  currentQuestion = 0;
+  const questionProgress =
+    document.getElementById("questionProgress");
 
-  selectedQuestionAnswer = null;
+  const questionTitle =
+    document.getElementById("questionTitle");
 
-  renderQuestion();
+  const questionSubtitle =
+    document.getElementById("questionSubtitle");
 
-}
+  const questionStage =
+    document.getElementById("questionStage");
 
-
-function renderQuestion() {
-
-  const question =
-    questions[currentQuestion];
-
-  if (!question) return;
-
-
-  selectedQuestionAnswer = null;
+  const questionNext =
+    document.getElementById("questionNext");
 
 
-  questionCounter.textContent =
-    `${currentQuestion + 1} / ${questions.length}`;
+  function startQuestionSystem() {
+
+    currentQuestion = 0;
+
+    selectedQuestionAnswer = null;
+
+    renderQuestion();
+
+  }
 
 
-  const progress =
-    ((currentQuestion + 1) /
-      questions.length) * 100;
+  function renderQuestion() {
+
+    const question =
+      questions[currentQuestion];
+
+    if (!question) return;
 
 
-  questionProgress.style.width =
-    `${progress}%`;
+    selectedQuestionAnswer = null;
 
 
-  questionTitle.textContent =
-    question.title;
+    questionCounter.textContent =
+      `${currentQuestion + 1} / ${questions.length}`;
 
 
-  questionSubtitle.textContent =
-    question.text;
+    questionProgress.style.width =
+      `${((currentQuestion + 1) / questions.length) * 100}%`;
 
 
-  questionStage.innerHTML = "";
-
-  questionNext.classList.add(
-    "hidden"
-  );
+    questionTitle.textContent =
+      question.title;
 
 
-  question.options.forEach(
-    (option, index) => {
+    questionSubtitle.textContent =
+      question.text;
+
+
+    questionStage.innerHTML = "";
+
+    questionNext.classList.add("hidden");
+
+
+    question.options.forEach((option, index) => {
 
       const button =
         document.createElement("button");
@@ -372,103 +397,78 @@ function renderQuestion() {
       button.textContent =
         option;
 
-
       button.style.animationDelay =
         `${index * 80}ms`;
 
 
-      button.addEventListener(
-        "click",
-        () => {
+      button.addEventListener("click", () => {
 
-          document
-            .querySelectorAll(
-              ".question-option"
-            )
-            .forEach(item => {
-              item.classList.remove(
-                "selected"
-              );
-            });
+        document
+          .querySelectorAll(".question-option")
+          .forEach(item => {
+            item.classList.remove("selected");
+          });
 
 
-          button.classList.add(
-            "selected"
-          );
+        button.classList.add("selected");
+
+        selectedQuestionAnswer = index;
+
+        questionNext.classList.remove("hidden");
+
+        createSmallBurst(button);
+
+      });
 
 
-          selectedQuestionAnswer =
-            index;
+      questionStage.appendChild(button);
+
+    });
+
+  }
 
 
-          questionNext.classList.remove(
-            "hidden"
-          );
-
-          createSmallBurst(button);
-
-        }
-      );
-
-
-      questionStage.appendChild(
-        button
-      );
-
-    }
-  );
-
-}
-
-
-questionNext.addEventListener(
-  "click",
-  () => {
+  questionNext.addEventListener("click", () => {
 
     if (selectedQuestionAnswer === null) {
       return;
     }
 
 
-    if (
-      currentQuestion <
-      questions.length - 1
-    ) {
+    if (currentQuestion < questions.length - 1) {
 
       currentQuestion++;
 
       renderQuestion();
 
       return;
+
     }
 
 
     showScreen("choiceScreen");
 
-  }
-);
+  });
 
 
-/* =========================================================
-   AHMIE CHOICE
-========================================================= */
+  /* =======================================================
+     CHOOSE AHMIE
+  ======================================================= */
 
-const ahmieButton =
-  document.getElementById("ahmieButton");
+  const ahmieButton =
+    document.getElementById("ahmieButton");
 
-const nineButton =
-  document.getElementById("nineButton");
+  const nineButton =
+    document.getElementById("nineButton");
 
-const choiceMessage =
-  document.getElementById("choiceMessage");
-
-
-let nineStage = 0;
+  const choiceMessage =
+    document.getElementById("choiceMessage");
 
 
-ahmieButton.addEventListener(
-  "click",
-  () => {
+  let nineStage = 0;
+
+
+  ahmieButton.addEventListener("click", () => {
 
     choiceMessage.textContent =
       "I knew it. ♡";
@@ -486,21 +486,12 @@ ahmieButton.addEventListener(
 
       startLetter();
 
-    }, 1200);
+    }, 1000);
 
-  }
-);
+  });
 
 
-/*
-   The 9 button stays part of the interaction.
-   It changes its message/stage instead of
-   simply disappearing.
-*/
-
-nineButton.addEventListener(
-  "click",
-  () => {
+  nineButton.addEventListener("click", () => {
 
     nineStage++;
 
@@ -518,6 +509,7 @@ nineButton.addEventListener(
       );
 
       return;
+
     }
 
 
@@ -530,6 +522,7 @@ nineButton.addEventListener(
         "That answer doesn't work here. 😌";
 
       return;
+
     }
 
 
@@ -542,6 +535,7 @@ nineButton.addEventListener(
         "You still have one obvious choice.";
 
       return;
+
     }
 
 
@@ -555,318 +549,304 @@ nineButton.addEventListener(
       "choice-pulse"
     );
 
-  }
-);
+  });
 
 
-/* =========================================================
-   LOVE LETTER
-========================================================= */
+  /* =======================================================
+     LOVE LETTER
+  ======================================================= */
 
-const loveLetterText =
-  document.getElementById("loveLetterText");
+  const loveLetterText =
+    document.getElementById("loveLetterText");
 
-const letterNext =
-  document.getElementById("letterNext");
+  const letterNext =
+    document.getElementById("letterNext");
 
 
-const letterText = `
+  const letterText = `
 Ahmie,
 
-I don't really know how to put everything I feel
-into a few perfect words, but maybe I don't need
-perfect words. Maybe I just need to be honest.
-
-So first of all...
-
 Please don't ignore this.
+
 And please don't blush and run away. ♡
 
-You can choose whoever you want,
-you can go wherever you want,
-and life can take us in a hundred different directions...
+I wanted to make this little world for you because
+sometimes normal words just don't feel like enough.
 
-but for me, you are still you.
+You can choose whoever you want.
+You can go wherever you want.
+Life can take us in different directions.
 
-The person I care about.
-The person I can call my best friend.
-The person I want to keep as my
-best friend forever.
+But for me, you're still you.
 
-Whatever happens, I don't want to simply
-walk away and pretend none of it mattered.
+No matter who you choose,
+for me, you will always be you.
+
+My favourite person.
+My best friend.
+And someone I want to keep in my life forever.
 
 There was a time when you went away.
 I made mistakes too.
-I thought maybe one day you'd come back,
-and when you didn't, I had to understand
-that I couldn't just sit there waiting.
+I thought maybe you would come back,
+but you didn't.
 
-But now?
+Maybe I didn't understand things properly back then.
+
+But this time I don't want to just sit there
+and wait for something to happen.
 
 I want to show you my effort.
 
-Not with empty promises.
-Not with words that disappear tomorrow.
+Not just with words.
 
 With consistency.
 With time.
+With care.
 With being there.
 With actually trying.
 
-I don't want to force anything.
-I just don't want to give up on something
-that still means this much to me.
+Whatever happens,
+I don't want to simply leave
+and pretend that you never mattered.
 
-So wherever life takes us,
-whatever you choose,
-I hope you always know one thing:
+Because you do.
 
-I'll still be your best friend.
+And even if life changes,
+I still want to be your best friend forever.
 
-And if you ever look back at this little website,
-I hope it makes you smile.
+So please don't ignore this little letter.
 
-Because I made it for you.
+And yes...
+
+you can blush. ♡
+
+I made this entire little world
+just so you could smile for a moment.
 
 — Inshaal ♡
 `;
 
 
-function startLetter() {
+  function startLetter() {
 
-  loveLetterText.textContent = "";
+    loveLetterText.textContent = "";
 
-  letterNext.classList.add(
-    "hidden"
-  );
+    letterNext.classList.add("hidden");
 
 
-  typeWriter(
-    loveLetterText,
-    letterText.trim(),
-    18,
-    () => {
+    typeWriter(
+      loveLetterText,
+      letterText.trim(),
+      15,
+      () => {
 
-      setTimeout(() => {
+        setTimeout(() => {
 
-        letterNext.classList.remove(
-          "hidden"
-        );
+          letterNext.classList.remove(
+            "hidden"
+          );
 
-      }, 600);
+        }, 500);
 
-    }
-  );
-
-}
-
-
-function typeWriter(
-  element,
-  text,
-  speed,
-  callback
-) {
-
-  let index = 0;
-
-
-  function write() {
-
-    if (index >= text.length) {
-
-      if (callback) callback();
-
-      return;
-    }
-
-
-    element.textContent +=
-      text.charAt(index);
-
-    index++;
-
-
-    let delay = speed;
-
-
-    if (
-      text.charAt(index - 1) === "."
-      ||
-      text.charAt(index - 1) === "!"
-      ||
-      text.charAt(index - 1) === "?"
-    ) {
-
-      delay = speed * 7;
-
-    }
-
-
-    setTimeout(
-      write,
-      delay
+      }
     );
 
   }
 
 
-  write();
+  function typeWriter(
+    element,
+    text,
+    speed,
+    callback
+  ) {
 
-}
+    let index = 0;
 
 
-letterNext.addEventListener(
-  "click",
-  () => {
+    function write() {
+
+      if (index >= text.length) {
+
+        if (callback) callback();
+
+        return;
+
+      }
+
+
+      element.textContent +=
+        text.charAt(index);
+
+      index++;
+
+
+      let delay = speed;
+
+      const char =
+        text.charAt(index - 1);
+
+
+      if (
+        char === "." ||
+        char === "!" ||
+        char === "?"
+      ) {
+
+        delay = speed * 5;
+
+      }
+
+
+      setTimeout(write, delay);
+
+    }
+
+
+    write();
+
+  }
+
+
+  letterNext.addEventListener("click", () => {
 
     showScreen("datingScreen");
 
     startDating();
 
+  });
+
+
+  /* =======================================================
+     DATING
+  ======================================================= */
+
+  const datingQuestions = [
+
+    {
+      question:
+        "Where should we go for our first little adventure?",
+      options: [
+        "A cozy café ☕",
+        "A long drive ✦",
+        "A beautiful dinner",
+        "Somewhere completely random"
+      ]
+    },
+
+    {
+      question:
+        "What kind of evening sounds perfect?",
+      options: [
+        "City lights",
+        "Stars and quiet",
+        "Movies and food",
+        "Walking and talking"
+      ]
+    },
+
+    {
+      question:
+        "What should we definitely do?",
+      options: [
+        "Take pictures",
+        "Try new food",
+        "Explore somewhere new",
+        "Laugh until we forget the time"
+      ]
+    },
+
+    {
+      question:
+        "What should our day end with?",
+      options: [
+        "A sunset",
+        "A late-night conversation",
+        "Dessert",
+        "One more adventure"
+      ]
+    },
+
+    {
+      question:
+        "And the most important question...",
+      options: [
+        "When are we going? ♡",
+        "Soon.",
+        "Very soon.",
+        "You choose the date. ✦"
+      ]
+    }
+
+  ];
+
+
+  let currentDatingQuestion = 0;
+  let selectedDatingAnswer = null;
+
+
+  const datingCounter =
+    document.getElementById("datingCounter");
+
+  const datingProgress =
+    document.getElementById("datingProgress");
+
+  const datingStage =
+    document.getElementById("datingStage");
+
+  const datingNext =
+    document.getElementById("datingNext");
+
+
+  function startDating() {
+
+    currentDatingQuestion = 0;
+
+    selectedDatingAnswer = null;
+
+    renderDatingQuestion();
+
   }
-);
 
 
-/* =========================================================
-   DATING QUESTIONS
-========================================================= */
+  function renderDatingQuestion() {
 
-const datingQuestions = [
+    const item =
+      datingQuestions[currentDatingQuestion];
 
-  {
-    question:
-      "Where should we go for a first little adventure?",
-    options: [
-      "A cozy café ☕",
-      "A long drive ✦",
-      "A beautiful dinner",
-      "Somewhere completely random"
-    ]
-  },
-
-  {
-    question:
-      "What kind of evening sounds perfect?",
-    options: [
-      "City lights",
-      "Stars and quiet",
-      "Movies and food",
-      "Walking and talking"
-    ]
-  },
-
-  {
-    question:
-      "What should we definitely do?",
-    options: [
-      "Take pictures",
-      "Try new food",
-      "Explore somewhere new",
-      "Laugh until we forget the time"
-    ]
-  },
-
-  {
-    question:
-      "What should our day end with?",
-    options: [
-      "A sunset",
-      "A late-night conversation",
-      "Dessert",
-      "One more adventure"
-    ]
-  },
-
-  {
-    question:
-      "And the most important question...",
-    options: [
-      "When are we going? ♡",
-      "Soon.",
-      "Very soon.",
-      "You choose the date. ✦"
-    ]
-  }
-
-];
+    if (!item) return;
 
 
-let currentDatingQuestion = 0;
-
-let selectedDatingAnswer = null;
+    selectedDatingAnswer = null;
 
 
-const datingCounter =
-  document.getElementById("datingCounter");
-
-const datingProgress =
-  document.getElementById("datingProgress");
-
-const datingStage =
-  document.getElementById("datingStage");
-
-const datingNext =
-  document.getElementById("datingNext");
+    datingCounter.textContent =
+      `${currentDatingQuestion + 1} / ${datingQuestions.length}`;
 
 
-function startDating() {
-
-  currentDatingQuestion = 0;
-
-  selectedDatingAnswer = null;
-
-  renderDatingQuestion();
-
-}
+    datingProgress.style.width =
+      `${((currentDatingQuestion + 1) / datingQuestions.length) * 100}%`;
 
 
-function renderDatingQuestion() {
+    datingStage.innerHTML = "";
 
-  const item =
-    datingQuestions[
-      currentDatingQuestion
-    ];
+    datingNext.classList.add("hidden");
 
 
-  if (!item) return;
+    const title =
+      document.createElement("h2");
+
+    title.className =
+      "dating-question-title";
+
+    title.textContent =
+      item.question;
+
+    datingStage.appendChild(title);
 
 
-  selectedDatingAnswer = null;
-
-
-  datingCounter.textContent =
-    `${currentDatingQuestion + 1} / ${datingQuestions.length}`;
-
-
-  const progress =
-    ((currentDatingQuestion + 1) /
-      datingQuestions.length) * 100;
-
-
-  datingProgress.style.width =
-    `${progress}%`;
-
-
-  datingStage.innerHTML = "";
-
-
-  const title =
-    document.createElement("h2");
-
-  title.className =
-    "dating-question-title";
-
-  title.textContent =
-    item.question;
-
-
-  datingStage.appendChild(title);
-
-
-  item.options.forEach(
-    (option, index) => {
+    item.options.forEach((option, index) => {
 
       const button =
         document.createElement("button");
@@ -879,65 +859,38 @@ function renderDatingQuestion() {
       button.textContent =
         option;
 
-
       button.style.animationDelay =
         `${index * 90}ms`;
 
 
-      button.addEventListener(
-        "click",
-        () => {
+      button.addEventListener("click", () => {
 
-          document
-            .querySelectorAll(
-              ".dating-option"
-            )
-            .forEach(item => {
-
-              item.classList.remove(
-                "selected"
-              );
-
-            });
+        document
+          .querySelectorAll(".dating-option")
+          .forEach(item => {
+            item.classList.remove("selected");
+          });
 
 
-          button.classList.add(
-            "selected"
-          );
+        button.classList.add("selected");
+
+        selectedDatingAnswer = index;
+
+        datingNext.classList.remove("hidden");
+
+        createSmallBurst(button);
+
+      });
 
 
-          selectedDatingAnswer =
-            index;
+      datingStage.appendChild(button);
+
+    });
+
+  }
 
 
-          datingNext.classList.remove(
-            "hidden"
-          );
-
-          createSmallBurst(button);
-
-        }
-      );
-
-
-      datingStage.appendChild(
-        button
-      );
-
-    }
-  );
-
-
-  datingNext.classList.add(
-    "hidden"
-  );
-
-}
-
-
-datingNext.addEventListener(
-  "click",
-  () => {
+  datingNext.addEventListener("click", () => {
 
     if (selectedDatingAnswer === null) {
       return;
@@ -962,84 +915,61 @@ datingNext.addEventListener(
 
     initializeMemories();
 
-  }
-);
+  });
 
 
-/* =========================================================
-   MEMORIES
-========================================================= */
+  /* =======================================================
+     MEMORIES
+  ======================================================= */
 
-const memoryGrid =
-  document.getElementById("memoryGrid");
+  const memoryGrid =
+    document.getElementById("memoryGrid");
 
-const memoriesNext =
-  document.getElementById("memoriesNext");
-
-
-let memoriesInitialized = false;
-
-let currentMemoryIndex = 0;
+  const memoriesNext =
+    document.getElementById("memoriesNext");
 
 
-/*
-   memories.js must provide:
-
-   const memories = [
-      "our-memories/Photo01.jpeg",
-      ...
-   ];
-*/
+  let memoriesInitialized = false;
 
 
-function initializeMemories() {
+  function initializeMemories() {
 
-  if (memoriesInitialized) {
-    return;
-  }
+    if (memoriesInitialized) return;
 
+    memoriesInitialized = true;
 
-  memoriesInitialized = true;
-
-  renderMemories();
-
-}
-
-
-function renderMemories() {
-
-  memoryGrid.innerHTML = "";
-
-
-  if (
-    typeof memories === "undefined"
-    ||
-    !Array.isArray(memories)
-  ) {
-
-    const error =
-      document.createElement("p");
-
-    error.textContent =
-      "Memory photos are waiting to be added.";
-
-    error.style.color =
-      "rgba(245,234,208,.55)";
-
-    error.style.gridColumn =
-      "1 / -1";
-
-    memoryGrid.appendChild(
-      error
-    );
-
-    return;
+    renderMemories();
 
   }
 
 
-  memories.forEach(
-    (src, index) => {
+  function renderMemories() {
+
+    memoryGrid.innerHTML = "";
+
+
+    if (
+      typeof memories === "undefined" ||
+      !Array.isArray(memories)
+    ) {
+
+      memoryGrid.innerHTML = `
+        <div style="
+          grid-column:1/-1;
+          padding:40px;
+          color:rgba(245,234,208,.6);
+        ">
+          Add your 30 JPEG photos to the
+          <strong>our-memories</strong> folder.
+        </div>
+      `;
+
+      return;
+
+    }
+
+
+    memories.forEach((src, index) => {
 
       const card =
         document.createElement("button");
@@ -1059,24 +989,16 @@ function renderMemories() {
         `Our Memory ${index + 1}`;
 
       image.loading =
-        index < 6
-          ? "eager"
-          : "lazy";
+        index < 6 ? "eager" : "lazy";
 
 
-      image.addEventListener(
-        "error",
-        () => {
+      image.addEventListener("error", () => {
 
-          card.classList.add(
-            "memory-error"
-          );
+        card.classList.add(
+          "memory-error"
+        );
 
-          image.alt =
-            "Memory image unavailable";
-
-        }
-      );
+      });
 
 
       const overlay =
@@ -1093,8 +1015,7 @@ function renderMemories() {
         "memory-number";
 
       number.textContent =
-        String(index + 1)
-          .padStart(2,"0");
+        String(index + 1).padStart(2, "0");
 
 
       card.appendChild(image);
@@ -1104,217 +1025,504 @@ function renderMemories() {
       card.appendChild(number);
 
 
-      card.addEventListener(
-        "click",
-        () => {
+      card.addEventListener("click", () => {
 
-          openMemory(index);
+        openMemory(index);
 
-        }
-      );
+      });
 
 
-      memoryGrid.appendChild(
-        card
-      );
+      memoryGrid.appendChild(card);
 
-    }
-  );
+    });
 
-}
-
-
-/* =========================================================
-   MEMORY VIEWER
-========================================================= */
-
-const memoryViewer =
-  document.getElementById("memoryViewer");
-
-const viewerImage =
-  document.getElementById("viewerImage");
-
-const viewerCounter =
-  document.getElementById("viewerCounter");
-
-const viewerClose =
-  document.getElementById("viewerClose");
-
-const viewerPrevious =
-  document.getElementById("viewerPrevious");
-
-const viewerNext =
-  document.getElementById("viewerNext");
-
-
-function openMemory(index) {
-
-  if (
-    typeof memories === "undefined"
-    ||
-    !memories[index]
-  ) {
-    return;
   }
 
 
-  currentMemoryIndex =
-    index;
+  memoriesNext.addEventListener("click", () => {
+
+    showScreen("animationScreen");
+
+    startCinematic();
+
+  });
 
 
-  updateMemoryViewer();
+  /* =======================================================
+     FULLSCREEN MEMORY VIEWER
+  ======================================================= */
+
+  const memoryViewer =
+    document.getElementById("memoryViewer");
+
+  const viewerImage =
+    document.getElementById("viewerImage");
+
+  const viewerCounter =
+    document.getElementById("viewerCounter");
+
+  const viewerClose =
+    document.getElementById("viewerClose");
+
+  const viewerPrevious =
+    document.getElementById("viewerPrevious");
+
+  const viewerNext =
+    document.getElementById("viewerNext");
 
 
-  memoryViewer.classList.add(
-    "active"
-  );
+  let currentMemoryIndex = 0;
 
 
-  document.body.style.overflow =
-    "hidden";
-
-}
-
-
-function updateMemoryViewer() {
-
-  const src =
-    memories[currentMemoryIndex];
-
-
-  viewerImage.style.opacity =
-    "0";
-
-
-  viewerImage.src =
-    src;
-
-
-  viewerImage.onload = () => {
-
-    viewerImage.style.opacity =
-      "1";
-
-  };
-
-
-  viewerCounter.textContent =
-    `${String(currentMemoryIndex + 1).padStart(2,"0")} / ${String(memories.length).padStart(2,"0")}`;
-
-}
-
-
-function closeMemoryViewer() {
-
-  memoryViewer.classList.remove(
-    "active"
-  );
-
-  document.body.style.overflow =
-    "";
-
-}
-
-
-function nextMemory() {
-
-  if (
-    typeof memories === "undefined"
-    ||
-    !memories.length
-  ) {
-    return;
-  }
-
-
-  currentMemoryIndex =
-    (currentMemoryIndex + 1)
-    % memories.length;
-
-
-  updateMemoryViewer();
-
-}
-
-
-function previousMemory() {
-
-  if (
-    typeof memories === "undefined"
-    ||
-    !memories.length
-  ) {
-    return;
-  }
-
-
-  currentMemoryIndex =
-    (
-      currentMemoryIndex -
-      1 +
-      memories.length
-    )
-    % memories.length;
-
-
-  updateMemoryViewer();
-
-}
-
-
-viewerClose.addEventListener(
-  "click",
-  closeMemoryViewer
-);
-
-
-viewerNext.addEventListener(
-  "click",
-  nextMemory
-);
-
-
-viewerPrevious.addEventListener(
-  "click",
-  previousMemory
-);
-
-
-memoryViewer.addEventListener(
-  "click",
-  event => {
+  function openMemory(index) {
 
     if (
-      event.target ===
-      memoryViewer
-    ) {
+      typeof memories === "undefined" ||
+      !memories[index]
+    ) return;
 
+
+    currentMemoryIndex = index;
+
+    updateMemoryViewer();
+
+    memoryViewer.classList.add("active");
+
+    document.body.style.overflow =
+      "hidden";
+
+  }
+
+
+  function updateMemoryViewer() {
+
+    const src =
+      memories[currentMemoryIndex];
+
+
+    viewerImage.style.opacity = "0";
+
+    viewerImage.src = src;
+
+
+    viewerImage.onload = () => {
+
+      viewerImage.style.opacity = "1";
+
+    };
+
+
+    viewerCounter.textContent =
+      `${String(currentMemoryIndex + 1).padStart(2, "0")} / ${String(memories.length).padStart(2, "0")}`;
+
+  }
+
+
+  function closeMemoryViewer() {
+
+    memoryViewer.classList.remove("active");
+
+    document.body.style.overflow = "";
+
+  }
+
+
+  function nextMemory() {
+
+    if (
+      typeof memories === "undefined" ||
+      !memories.length
+    ) return;
+
+
+    currentMemoryIndex =
+      (currentMemoryIndex + 1) %
+      memories.length;
+
+
+    updateMemoryViewer();
+
+  }
+
+
+  function previousMemory() {
+
+    if (
+      typeof memories === "undefined" ||
+      !memories.length
+    ) return;
+
+
+    currentMemoryIndex =
+      (currentMemoryIndex - 1 + memories.length) %
+      memories.length;
+
+
+    updateMemoryViewer();
+
+  }
+
+
+  viewerClose.addEventListener(
+    "click",
+    closeMemoryViewer
+  );
+
+  viewerNext.addEventListener(
+    "click",
+    nextMemory
+  );
+
+  viewerPrevious.addEventListener(
+    "click",
+    previousMemory
+  );
+
+
+  memoryViewer.addEventListener("click", event => {
+
+    if (event.target === memoryViewer) {
       closeMemoryViewer();
-
     }
 
-  }
-);
+  });
 
 
-document.addEventListener(
-  "keydown",
-  event => {
+  document.addEventListener("keydown", event => {
 
     if (
-      !memoryViewer.classList.contains(
-        "active"
-      )
-    ) {
-      return;
-    }
+      !memoryViewer.classList.contains("active")
+    ) return;
 
 
     if (event.key === "Escape") {
-
       closeMemoryViewer();
+    }
+
+    if (event.key === "ArrowRight") {
+      nextMemory();
+    }
+
+    if (event.key === "ArrowLeft") {
+      previousMemory();
+    }
+
+  });
+
+
+  /* =======================================================
+     CINEMATIC ANIMATION
+  ======================================================= */
+
+  function startCinematic() {
+
+    const text =
+      document.getElementById("animationText");
+
+    if (!text) return;
+
+
+    const lines = [
+      "Some memories are meant to stay.",
+      "Some people become part of us.",
+      "And some stories are only beginning. ♡"
+    ];
+
+
+    let index = 0;
+
+    text.style.opacity = "0";
+
+
+    function changeText() {
+
+      text.style.opacity = "0";
+
+
+      setTimeout(() => {
+
+        text.innerHTML =
+          lines[index]
+            .replace(/\n/g, "<br>");
+
+        text.style.opacity = "1";
+
+        index++;
+
+        if (index < lines.length) {
+
+          setTimeout(
+            changeText,
+            3000
+          );
+
+        } else {
+
+          setTimeout(() => {
+
+            showScreen("finalScreen");
+
+            setupInstagram();
+
+          }, 3500);
+
+        }
+
+      }, 700);
 
     }
 
 
-    if (event.key === "ArrowRight")
+    changeText();
+
+  }
+
+
+  /* =======================================================
+     INSTAGRAM
+  ======================================================= */
+
+  function setupInstagram() {
+
+    const link =
+      document.getElementById("instagramLink");
+
+    if (!link) return;
+
+
+    /*
+      Instagram usernames cannot normally contain
+      hyphens. Keep the displayed ID exactly as requested,
+      but don't force an invalid profile URL.
+    */
+
+    link.textContent =
+      `@${INSTAGRAM_USERNAME}`;
+
+  }
+
+
+  /* =======================================================
+     GOLD PARTICLES
+  ======================================================= */
+
+  function createGoldBurst() {
+
+    const container =
+      document.getElementById("particles");
+
+    if (!container) return;
+
+
+    for (let i = 0; i < 18; i++) {
+
+      const spark =
+        document.createElement("span");
+
+      spark.className =
+        "gold-spark";
+
+      spark.textContent =
+        "✦";
+
+
+      spark.style.left =
+        "50%";
+
+      spark.style.top =
+        "50%";
+
+
+      spark.style.setProperty(
+        "--x",
+        `${(Math.random() - .5) * 500}px`
+      );
+
+      spark.style.setProperty(
+        "--y",
+        `${(Math.random() - .5) * 500}px`
+      );
+
+
+      container.appendChild(spark);
+
+
+      setTimeout(() => {
+        spark.remove();
+      }, 1800);
+
+    }
+
+  }
+
+
+  function createSmallBurst(element) {
+
+    if (!element) return;
+
+
+    const rect =
+      element.getBoundingClientRect();
+
+
+    const container =
+      document.getElementById("particles");
+
+    if (!container) return;
+
+
+    for (let i = 0; i < 8; i++) {
+
+      const spark =
+        document.createElement("span");
+
+      spark.className =
+        "gold-spark";
+
+      spark.textContent =
+        "✦";
+
+
+      spark.style.left =
+        `${rect.left + rect.width / 2}px`;
+
+      spark.style.top =
+        `${rect.top + rect.height / 2}px`;
+
+
+      spark.style.setProperty(
+        "--x",
+        `${(Math.random() - .5) * 180}px`
+      );
+
+      spark.style.setProperty(
+        "--y",
+        `${(Math.random() - .5) * 140}px`
+      );
+
+
+      container.appendChild(spark);
+
+
+      setTimeout(() => {
+        spark.remove();
+      }, 1700);
+
+    }
+
+  }
+
+
+  function createHeartBurst() {
+
+    const container =
+      document.getElementById("floatingHearts");
+
+    if (!container) return;
+
+
+    for (let i = 0; i < 18; i++) {
+
+      const heart =
+        document.createElement("span");
+
+      heart.className =
+        "floating-heart";
+
+      heart.textContent =
+        Math.random() > .5
+          ? "♡"
+          : "✦";
+
+
+      heart.style.left =
+        `${Math.random() * 100}%`;
+
+      heart.style.bottom =
+        "-30px";
+
+
+      heart.style.fontSize =
+        `${12 + Math.random() * 22}px`;
+
+
+      heart.style.animationDelay =
+        `${Math.random() * .5}s`;
+
+
+      container.appendChild(heart);
+
+
+      setTimeout(() => {
+        heart.remove();
+      }, 7500);
+
+    }
+
+  }
+
+
+  /* =======================================================
+     BACKGROUND PARTICLES
+  ======================================================= */
+
+  function createBackgroundParticles() {
+
+    const container =
+      document.getElementById("particles");
+
+    if (!container) return;
+
+
+    for (let i = 0; i < 45; i++) {
+
+      const particle =
+        document.createElement("span");
+
+      particle.className =
+        "particle";
+
+
+      particle.style.left =
+        `${Math.random() * 100}%`;
+
+      particle.style.top =
+        `${Math.random() * 100}%`;
+
+
+      particle.style.animationDelay =
+        `${Math.random() * 8}s`;
+
+
+      particle.style.animationDuration =
+        `${5 + Math.random() * 8}s`;
+
+
+      container.appendChild(particle);
+
+    }
+
+  }
+
+
+  createBackgroundParticles();
+
+
+  /* =======================================================
+     INITIAL STATE
+  ======================================================= */
+
+  showScreen("passwordScreen");
+
+
+  /* Auto-focus password */
+
+  setTimeout(() => {
+
+    if (passwordInput) {
+      passwordInput.focus();
+    }
+
+  }, 500);
+
+});
