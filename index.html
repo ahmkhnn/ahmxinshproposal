@@ -1,89 +1,652 @@
-<section id="passwordScreen" class="screen">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
 
-  <div class="welcome-glow"></div>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-  <div class="welcome-floating-text">
-    <span>WELCOME</span>
-    <span>TO</span>
-    <span>AHMIE</span>
-    <span>SITE</span>
-  </div>
+  <meta
+    name="theme-color"
+    content="#050505"
+  >
 
-  <div class="password-container">
+  <title>Welcome to Ahmie Site</title>
 
-    <p class="eyebrow">
-      A PRIVATE LITTLE WORLD
-    </p>
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
+</head>
 
-    <div class="lock-icon">
-      ♡
+<body>
+
+  <!-- ==================================================
+       GLOBAL EFFECT LAYERS
+  =================================================== -->
+
+  <div id="particles"></div>
+
+  <div id="floatingHearts"></div>
+
+
+  <!-- ==================================================
+       01 — PASSWORD
+  =================================================== -->
+
+  <section
+    id="passwordScreen"
+    class="screen active"
+  >
+
+    <div class="welcome-glow"></div>
+
+    <div class="welcome-floating-text">
+      <span>WELCOME</span>
+      <span>TO</span>
+      <span>AHMIE</span>
+      <span>SITE</span>
     </div>
 
-    <h1>
-      Welcome to Ahmie Site
-    </h1>
 
-    <p class="password-subtitle">
-      Enter the secret code to continue.
-    </p>
+    <div class="password-container">
 
-    <!-- LOVE hint -->
+      <p class="eyebrow">
+        A PRIVATE LITTLE WORLD
+      </p>
 
-    <div class="love-hint">
 
-      <div>
-        <strong>2</strong>
-        <span>L</span>
+      <div class="lock-icon">
+        ♡
       </div>
 
-      <div>
-        <strong>6</strong>
-        <span>O</span>
+
+      <h1>
+        Welcome to Ahmie Site
+      </h1>
+
+
+      <p class="password-subtitle">
+        Enter the secret code to continue.
+      </p>
+
+
+      <!-- LOVE PASSWORD HINT -->
+
+      <div class="love-hint">
+
+        <div>
+          <strong>2</strong>
+          <span>L</span>
+        </div>
+
+        <div>
+          <strong>6</strong>
+          <span>O</span>
+        </div>
+
+        <div>
+          <strong>2</strong>
+          <span>V</span>
+        </div>
+
+        <div>
+          <strong>8</strong>
+          <span>E</span>
+        </div>
+
       </div>
 
-      <div>
-        <strong>2</strong>
-        <span>V</span>
+
+      <!-- PASSWORD INPUT -->
+
+      <div class="password-input-wrap">
+
+        <input
+          id="passwordInput"
+          type="password"
+          inputmode="numeric"
+          maxlength="4"
+          autocomplete="off"
+          placeholder="••••"
+          aria-label="Password"
+        >
+
+        <div class="input-line"></div>
+
       </div>
 
-      <div>
-        <strong>8</strong>
-        <span>E</span>
-      </div>
 
-    </div>
-
-    <!-- Password -->
-
-    <div class="password-input-wrap">
-
-      <input
-        id="passwordInput"
-        type="password"
-        inputmode="numeric"
-        maxlength="4"
-        autocomplete="off"
-        placeholder="••••"
-        aria-label="Password"
+      <p
+        id="codeMessage"
+        class="code-message"
       >
+        Four digits. That's all. ♡
+      </p>
 
-      <div class="input-line"></div>
+
+      <button
+        id="unlockButton"
+        class="gold-button"
+        type="button"
+      >
+        UNLOCK
+        <span>→</span>
+      </button>
 
     </div>
 
-    <p id="codeMessage" class="code-message">
-      Four digits. That's all. ♡
-    </p>
+  </section>
+
+
+
+  <!-- ==================================================
+       02 — NINE QUESTIONS
+  =================================================== -->
+
+  <section
+    id="questionsScreen"
+    class="screen"
+  >
+
+    <div class="section-glow"></div>
+
+
+    <div class="question-container">
+
+      <p class="eyebrow">
+        JUST A FEW LITTLE QUESTIONS
+      </p>
+
+
+      <div class="question-top">
+
+        <span id="questionCounter">
+          1 / 9
+        </span>
+
+      </div>
+
+
+      <div class="progress-shell">
+
+        <div
+          id="questionProgress"
+          class="progress-bar"
+        ></div>
+
+      </div>
+
+
+      <div class="question-card">
+
+        <p class="mini-label">
+          QUESTION
+        </p>
+
+
+        <h2 id="questionTitle">
+          Question One
+        </h2>
+
+
+        <p id="questionSubtitle">
+          If you could keep one thing forever,
+          what would it be?
+        </p>
+
+
+        <div
+          id="questionStage"
+          class="question-stage"
+        ></div>
+
+
+        <button
+          id="questionNext"
+          class="gold-button hidden"
+          type="button"
+        >
+          NEXT
+          <span>→</span>
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ==================================================
+       03 — AHMIE CHOICE
+  =================================================== -->
+
+  <section
+    id="choiceScreen"
+    class="screen"
+  >
+
+    <div class="section-glow"></div>
+
+
+    <div class="choice-container">
+
+      <p class="eyebrow">
+        ONE LAST LITTLE CHOICE
+      </p>
+
+
+      <div class="choice-heart">
+        ♡
+      </div>
+
+
+      <h2>
+        So...
+      </h2>
+
+
+      <p class="choice-main-text">
+        Who are you choosing?
+      </p>
+
+
+      <p
+        id="choiceMessage"
+        class="choice-message"
+      >
+        Take your time. ✦
+      </p>
+
+
+      <div class="choice-buttons">
+
+        <button
+          id="ahmieButton"
+          class="gold-button choice-button"
+          type="button"
+        >
+          AHMIE
+          <span>♡</span>
+        </button>
+
+
+        <button
+          id="nineButton"
+          class="dark-button choice-button"
+          type="button"
+        >
+          9
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ==================================================
+       04 — LOVE LETTER
+  =================================================== -->
+
+  <section
+    id="letterScreen"
+    class="screen"
+  >
+
+    <div class="letter-glow"></div>
+
+
+    <div class="letter-paper">
+
+      <div class="letter-decoration top">
+        ✦
+      </div>
+
+
+      <p class="letter-small-title">
+        A LETTER FOR YOU
+      </p>
+
+
+      <h2 class="letter-heading">
+        Dear Ahmie,
+      </h2>
+
+
+      <div
+        id="loveLetterText"
+        class="love-letter-text"
+      ></div>
+
+
+      <div class="letter-signature">
+        — Inshaal ♡
+      </div>
+
+
+      <div class="letter-decoration bottom">
+        ♡
+      </div>
+
+
+      <button
+        id="letterNext"
+        class="gold-button hidden"
+        type="button"
+      >
+        KEEP GOING
+        <span>→</span>
+      </button>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ==================================================
+       05 — DATING QUESTIONS
+  =================================================== -->
+
+  <section
+    id="datingScreen"
+    class="screen"
+  >
+
+    <div class="section-glow"></div>
+
+
+    <div class="dating-container">
+
+      <p class="eyebrow">
+        NOW LET'S PLAN SOMETHING
+      </p>
+
+
+      <div class="dating-top">
+
+        <span id="datingCounter">
+          1 / 5
+        </span>
+
+      </div>
+
+
+      <div class="progress-shell">
+
+        <div
+          id="datingProgress"
+          class="progress-bar"
+        ></div>
+
+      </div>
+
+
+      <div
+        id="datingStage"
+        class="dating-stage"
+      ></div>
+
+
+      <button
+        id="datingNext"
+        class="gold-button hidden"
+        type="button"
+      >
+        NEXT
+        <span>→</span>
+      </button>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ==================================================
+       06 — OUR MEMORIES
+  =================================================== -->
+
+  <section
+    id="memoriesScreen"
+    class="screen"
+  >
+
+    <div class="memories-glow"></div>
+
+
+    <div class="memories-container">
+
+      <p class="eyebrow">
+        OUR MEMORIES
+      </p>
+
+
+      <h2 class="memories-title">
+        Little moments,
+        <span>forever.</span>
+      </h2>
+
+
+      <p class="memories-subtitle">
+        Thirty little pieces of our story.
+      </p>
+
+
+      <div
+        id="memoryGrid"
+        class="memory-grid"
+      ></div>
+
+
+      <button
+        id="memoriesNext"
+        class="gold-button memories-next"
+        type="button"
+      >
+        CONTINUE
+        <span>→</span>
+      </button>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ==================================================
+       07 — FULLSCREEN MEMORY VIEWER
+  =================================================== -->
+
+  <div
+    id="memoryViewer"
+    class="memory-viewer"
+  >
 
     <button
-      id="unlockButton"
-      class="gold-button"
+      id="viewerClose"
+      class="viewer-close"
       type="button"
+      aria-label="Close"
     >
-      UNLOCK
-      <span>→</span>
+      ×
+    </button>
+
+
+    <button
+      id="viewerPrevious"
+      class="viewer-arrow viewer-previous"
+      type="button"
+      aria-label="Previous photo"
+    >
+      ‹
+    </button>
+
+
+    <div class="viewer-content">
+
+      <img
+        id="viewerImage"
+        src=""
+        alt="Memory"
+      >
+
+
+      <div
+        id="viewerCounter"
+        class="viewer-counter"
+      >
+        01 / 30
+      </div>
+
+    </div>
+
+
+    <button
+      id="viewerNext"
+      class="viewer-arrow viewer-next"
+      type="button"
+      aria-label="Next photo"
+    >
+      ›
     </button>
 
   </div>
 
-</section>
+
+
+  <!-- ==================================================
+       08 — CINEMATIC ANIMATION
+  =================================================== -->
+
+  <section
+    id="animationScreen"
+    class="screen cinematic-screen"
+  >
+
+    <div class="cinematic-stars"></div>
+
+
+    <div class="cinematic-content">
+
+      <div class="cinematic-symbol">
+        ✦
+      </div>
+
+
+      <p class="cinematic-small">
+        SOME STORIES
+      </p>
+
+
+      <h2
+        id="animationText"
+        class="cinematic-title"
+      >
+        are meant to continue...
+      </h2>
+
+
+      <div class="cinematic-line"></div>
+
+
+      <p class="cinematic-ending">
+        And this one is ours. ♡
+      </p>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ==================================================
+       09 — FINAL
+  =================================================== -->
+
+  <section
+    id="finalScreen"
+    class="screen final-screen"
+  >
+
+    <div class="final-glow"></div>
+
+
+    <div class="final-container">
+
+      <p class="eyebrow">
+        THE END?
+      </p>
+
+
+      <div class="final-heart">
+        ♡
+      </div>
+
+
+      <h1 class="final-title">
+        Inshaal
+        <span>×</span>
+        Ahmie
+      </h1>
+
+
+      <p class="final-message">
+        Maybe this isn't the end.
+        Maybe it's just the beginning
+        of another beautiful chapter.
+      </p>
+
+
+      <div class="final-divider">
+        ✦
+      </div>
+
+
+      <p class="final-instagram-label">
+        If you want to talk...
+      </p>
+
+
+      <a
+        id="instagramLink"
+        class="instagram-link"
+        href="#"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        @AHME-SOLITUDE
+      </a>
+
+
+      <p class="final-signature">
+        With a little love,
+        <br>
+        Inshaal ♡
+      </p>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ==================================================
+       MEMORY DATA
+  =================================================== -->
+
+  <script src="memories.js"></script>
+
+  <!-- MAIN SCRIPT -->
+
+  <script src="script.js"></script>
+
+</body>
+</html>
