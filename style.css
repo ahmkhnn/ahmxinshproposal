@@ -6,9 +6,12 @@
 
 body {
   min-height: 100vh;
+  background:
+    radial-gradient(circle at 20% 20%, #35102b 0%, transparent 35%),
+    radial-gradient(circle at 80% 80%, #211044 0%, transparent 35%),
+    #09060d;
+  color: white;
   font-family: Arial, sans-serif;
-  background: #0b0710;
-  color: #fff;
   overflow-x: hidden;
 }
 
@@ -16,58 +19,74 @@ body::before {
   content: "";
   position: fixed;
   inset: 0;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(255, 0, 100, 0.18), transparent 30%),
-    radial-gradient(circle at 80% 80%, rgba(170, 0, 255, 0.15), transparent 30%);
   pointer-events: none;
-  z-index: -1;
+  background:
+    radial-gradient(circle, rgba(255, 70, 150, 0.08) 1px, transparent 1px);
+  background-size: 35px 35px;
 }
 
-/* Password Screen */
+/* SCREEN */
 
 .screen {
   min-height: 100vh;
-  display: flex;
+  padding: 25px;
+  display: none;
   align-items: center;
   justify-content: center;
-  padding: 20px;
 }
 
-.card {
+.screen.active {
+  display: flex;
+  animation: fadeIn 0.7s ease;
+}
+
+/* GLASS CARD */
+
+.glass-card {
   width: 100%;
-  max-width: 420px;
-  padding: 40px 25px;
+  max-width: 600px;
+  padding: 45px 28px;
   text-align: center;
+  border-radius: 30px;
   background: rgba(255, 255, 255, 0.07);
   border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 25px;
-  backdrop-filter: blur(15px);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
 }
 
-.heart {
-  font-size: 60px;
-  animation: heartbeat 1.3s infinite;
+.big-heart {
+  font-size: 65px;
+  animation: heartbeat 1.4s infinite;
 }
 
-.card h1 {
-  margin: 15px 0 10px;
-  font-size: 32px;
+.small-title {
+  margin: 15px 0;
+  color: #ff72a9;
+  letter-spacing: 4px;
+  font-size: 12px;
+  font-weight: bold;
 }
 
-.card p {
-  color: #d5cbd5;
-  margin-bottom: 20px;
+h1 {
+  font-size: clamp(30px, 7vw, 50px);
+  margin-bottom: 18px;
 }
+
+.subtitle {
+  color: #bdb2bd;
+  margin-bottom: 35px;
+}
+
+/* INPUT */
 
 input {
   width: 100%;
-  padding: 15px;
-  margin: 8px 0;
-  border: none;
+  padding: 16px;
+  margin: 15px 0 5px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.15);
   outline: none;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255,255,255,0.08);
   color: white;
   font-size: 16px;
 }
@@ -76,299 +95,333 @@ input::placeholder {
   color: #aaa;
 }
 
+/* BUTTON */
+
 button {
   border: none;
-  outline: none;
+  padding: 14px 25px;
+  margin-top: 15px;
+  border-radius: 14px;
   cursor: pointer;
-  padding: 13px 22px;
-  border-radius: 12px;
-  margin-top: 10px;
-  font-size: 15px;
-  font-weight: bold;
   color: white;
-  background: linear-gradient(135deg, #ff176f, #a100ff);
-  transition: 0.25s ease;
+  font-weight: bold;
+  font-size: 15px;
+  background: linear-gradient(135deg, #ff287f, #9c27ff);
+  transition: 0.25s;
 }
 
 button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 25px rgba(255, 0, 120, 0.35);
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 10px 30px rgba(255, 40, 127, 0.3);
 }
 
-#errorMessage {
-  color: #ff547c;
+.error {
   min-height: 20px;
   margin-top: 12px;
+  color: #ff668f;
 }
 
-/* Main Content */
+/* QUESTIONS */
 
-.hidden {
-  display: none !important;
-}
-
-#mainContent {
-  min-height: 100vh;
-}
-
-header {
-  text-align: center;
-  padding: 70px 20px 40px;
-}
-
-.status {
-  display: inline-block;
-  color: #50ff9b;
-  font-size: 13px;
-  margin-bottom: 15px;
-}
-
-header h1 {
-  font-size: clamp(32px, 8vw, 60px);
-  margin-bottom: 15px;
-}
-
-header p {
-  color: #c8bdc8;
-  font-size: 17px;
-}
-
-/* Hero */
-
-.hero {
-  padding: 20px;
-}
-
-.hero-card {
-  max-width: 850px;
-  margin: auto;
-  padding: 70px 25px;
-  text-align: center;
-  border-radius: 30px;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 0, 100, 0.18),
-    rgba(130, 0, 255, 0.15)
-  );
-  border: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-.hero-card span {
-  font-size: 45px;
-}
-
-.hero-card h2 {
-  margin: 20px auto 10px;
+.question-card {
   max-width: 650px;
-  font-size: clamp(24px, 5vw, 40px);
-  line-height: 1.3;
 }
 
-.hero-card p {
-  color: #bfb2bf;
+#questionNumber {
+  color: #ff72a9;
+  margin-bottom: 25px;
 }
 
-/* Sections */
-
-.section {
-  max-width: 900px;
-  margin: auto;
-  padding: 70px 20px;
+#questionText {
+  font-size: clamp(25px, 6vw, 38px);
 }
 
-.section > h2 {
-  text-align: center;
-  margin-bottom: 30px;
-  font-size: 28px;
-}
-
-/* Love Calculator */
-
-.calculator {
-  max-width: 500px;
-  margin: auto;
-  text-align: center;
-  padding: 30px;
-  border-radius: 25px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-.calculator span {
-  display: block;
-  margin: 5px;
-  font-size: 25px;
-}
-
-.calculator button {
-  width: 100%;
-}
-
-#loveResult {
-  min-height: 40px;
-  margin-top: 25px;
-  font-size: 22px;
-  font-weight: bold;
-}
-
-/* Proposal */
-
-.proposal-card {
-  position: relative;
-  min-height: 280px;
-  padding: 45px 20px;
-  text-align: center;
-  border-radius: 25px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  overflow: hidden;
-}
-
-.proposal-card h3 {
-  font-size: clamp(22px, 5vw, 32px);
-  margin-bottom: 30px;
-}
-
-.buttons {
+#questionOptions,
+#datingOptions {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#questionOptions button,
+#datingOptions button {
+  width: 100%;
+  margin-top: 5px;
+}
+
+#questionMessage,
+#datingMessage,
+#choiceMessage {
+  min-height: 25px;
+  margin-top: 20px;
+  color: #ff9ac1;
+}
+
+/* CHOICE */
+
+.choice-buttons {
+  display: flex;
   gap: 15px;
+  justify-content: center;
   flex-wrap: wrap;
 }
 
-#noButton {
+#otherChoice {
   background: #333;
-  transition: left 0.2s, top 0.2s;
 }
 
-#yesMessage {
-  margin-top: 30px;
-  font-size: 20px;
-  color: #ff78aa;
-  font-weight: bold;
+/* LETTER */
+
+.letter-card {
+  max-width: 750px;
 }
 
-/* Memories */
+.letter-text {
+  text-align: left;
+  line-height: 1.9;
+  color: #e4dbe4;
+  margin: 25px 0;
+  white-space: pre-line;
+  font-size: 17px;
+}
 
-.memories {
+/* MEMORIES */
+
+.wide-screen {
+  align-items: flex-start;
+}
+
+.page-content {
+  width: 100%;
+  max-width: 1100px;
+  text-align: center;
+  padding: 40px 10px;
+}
+
+.memory-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-bottom: 35px;
 }
 
 .memory-card {
-  padding: 25px;
-  min-height: 180px;
+  position: relative;
+  height: 250px;
+  overflow: hidden;
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  transition: 0.3s ease;
+  cursor: pointer;
+  background: #151019;
+  border: 1px solid rgba(255,255,255,0.12);
+  transition: 0.3s;
 }
 
 .memory-card:hover {
-  transform: translateY(-7px);
-  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-5px);
 }
 
-.memory-card .memory-icon {
+.memory-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: 0.4s;
+}
+
+.memory-card:hover img {
+  transform: scale(1.06);
+}
+
+.memory-number {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: rgba(0,0,0,0.65);
+  font-size: 12px;
+}
+
+/* VIEWER */
+
+.viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.94);
+  padding: 60px;
+}
+
+.viewer.active {
+  display: flex;
+}
+
+.viewer img {
+  max-width: 90%;
+  max-height: 85vh;
+  object-fit: contain;
+  border-radius: 12px;
+}
+
+.close-viewer {
+  position: absolute;
+  top: 15px;
+  right: 20px;
   font-size: 35px;
-  margin-bottom: 15px;
+  background: transparent;
+  box-shadow: none;
 }
 
-.memory-card h3 {
-  margin-bottom: 10px;
+.viewer-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 45px;
+  background: rgba(255,255,255,0.1);
+  padding: 5px 18px;
 }
 
-.memory-card p {
-  color: #bbb;
-  line-height: 1.5;
+.viewer-arrow:hover {
+  transform: translateY(-50%) scale(1.05);
 }
 
-/* Footer */
-
-footer {
-  padding: 40px 20px;
-  text-align: center;
-  color: #938894;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+.viewer-arrow.left {
+  left: 20px;
 }
 
-footer p {
-  margin: 7px;
+.viewer-arrow.right {
+  right: 20px;
 }
 
-/* Animations */
+#viewerCounter {
+  position: absolute;
+  bottom: 20px;
+  color: #ddd;
+}
+
+/* FINAL */
+
+.final-screen {
+  background:
+    radial-gradient(circle at center, rgba(255, 30, 120, 0.18), transparent 45%);
+}
+
+.final-card {
+  max-width: 750px;
+}
+
+.rings {
+  font-size: 60px;
+}
+
+.final-heart {
+  font-size: 80px;
+  animation: heartbeat 1.2s infinite;
+}
+
+.final-card h2 {
+  margin: 20px 0;
+}
+
+.final-card > p {
+  color: #c9bdc9;
+  line-height: 1.7;
+}
+
+.final-names {
+  margin: 30px 0 10px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #ff79ad;
+}
+
+.final-names span {
+  color: white;
+  margin: 0 10px;
+}
+
+.forever {
+  color: #ff79ad !important;
+}
+
+/* ANIMATIONS */
 
 @keyframes heartbeat {
-  0% {
+  0%, 100% {
     transform: scale(1);
   }
 
-  25% {
+  20% {
     transform: scale(1.12);
   }
 
   40% {
     transform: scale(1);
   }
+}
 
-  60% {
-    transform: scale(1.12);
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
   }
 
-  100% {
-    transform: scale(1);
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 750px) {
+  .memory-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .memory-card {
+    height: 190px;
+  }
+
+  .viewer {
+    padding: 45px 15px;
+  }
+
+  .viewer img {
+    max-width: 95%;
   }
 }
 
-/* Mobile */
-
-@media (max-width: 600px) {
-  .card {
-    padding: 30px 20px;
+@media (max-width: 450px) {
+  .screen {
+    padding: 15px;
   }
 
-  header {
-    padding-top: 50px;
+  .glass-card {
+    padding: 35px 20px;
   }
 
-  .hero-card {
-    padding: 50px 20px;
+  .memory-grid {
+    grid-template-columns: 1fr 1fr;
   }
 
-  .section {
-    padding: 50px 15px;
+  .memory-card {
+    height: 160px;
   }
 
-  .calculator {
-    padding: 22px;
+  .viewer-arrow {
+    font-size: 32px;
   }
-}
-.memory-card {
-  padding: 0;
-  overflow: hidden;
-}
 
-.memory-image {
-  width: 100%;
-  height: 220px;
-  display: block;
-  object-fit: cover;
-}
+  .viewer-arrow.left {
+    left: 5px;
+  }
 
-.memory-content {
-  padding: 22px;
-}
-
-.memory-card .memory-icon {
-  font-size: 30px;
-  margin-bottom: 10px;
-}
-
-.memory-card h3 {
-  margin-bottom: 8px;
-}
-
-.memory-card p {
-  margin: 0;
+  .viewer-arrow.right {
+    right: 5px;
+  }
 }
