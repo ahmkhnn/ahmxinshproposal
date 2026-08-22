@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
 
@@ -13,28 +14,31 @@
     content="#050505"
   >
 
-  <title>Welcome to Ahmie Site</title>
+  <title>Welcome to Ahmie Site ♡</title>
 
-  <link
-    rel="stylesheet"
-    href="style.css"
-  >
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="style.css">
+
 </head>
+
 
 <body>
 
-  <!-- ==================================================
-       GLOBAL EFFECT LAYERS
-  =================================================== -->
+  <!-- =====================================================
+       GLOBAL ATMOSPHERE
+  ====================================================== -->
 
-  <div id="particles"></div>
+  <div id="particles" class="particles"></div>
 
-  <div id="floatingHearts"></div>
+  <div
+    id="floatingHearts"
+    class="floating-hearts"
+  ></div>
 
 
-  <!-- ==================================================
-       01 — PASSWORD
-  =================================================== -->
+  <!-- =====================================================
+       01 — PASSWORD SCREEN
+  ====================================================== -->
 
   <section
     id="passwordScreen"
@@ -44,10 +48,12 @@
     <div class="welcome-glow"></div>
 
     <div class="welcome-floating-text">
+
       <span>WELCOME</span>
       <span>TO</span>
       <span>AHMIE</span>
       <span>SITE</span>
+
     </div>
 
 
@@ -73,7 +79,7 @@
       </p>
 
 
-      <!-- LOVE PASSWORD HINT -->
+      <!-- LOVE HINT -->
 
       <div class="love-hint">
 
@@ -142,23 +148,22 @@
 
 
 
-  <!-- ==================================================
+  <!-- =====================================================
        02 — NINE QUESTIONS
-  =================================================== -->
+  ====================================================== -->
 
   <section
     id="questionsScreen"
     class="screen"
   >
 
-    <div class="section-glow"></div>
-
+    <div class="screen-glow"></div>
 
     <div class="question-container">
 
-      <p class="eyebrow">
-        JUST A FEW LITTLE QUESTIONS
-      </p>
+      <div class="section-label">
+        A LITTLE SOMETHING
+      </div>
 
 
       <div class="question-top">
@@ -167,40 +172,38 @@
           1 / 9
         </span>
 
-      </div>
+        <div class="progress-track">
 
+          <div
+            id="questionProgress"
+            class="progress-bar"
+          ></div>
 
-      <div class="progress-shell">
-
-        <div
-          id="questionProgress"
-          class="progress-bar"
-        ></div>
+        </div>
 
       </div>
 
 
       <div class="question-card">
 
-        <p class="mini-label">
-          QUESTION
-        </p>
+        <div class="question-number">
+          01
+        </div>
 
 
-        <h2 id="questionTitle">
+        <h1 id="questionTitle">
           Question One
-        </h2>
+        </h1>
 
 
         <p id="questionSubtitle">
-          If you could keep one thing forever,
-          what would it be?
+          Choose whatever feels right.
         </p>
 
 
         <div
           id="questionStage"
-          class="question-stage"
+          class="question-options"
         ></div>
 
 
@@ -221,22 +224,21 @@
 
 
 
-  <!-- ==================================================
-       03 — AHMIE CHOICE
-  =================================================== -->
+  <!-- =====================================================
+       03 — CHOOSE AHMIE
+  ====================================================== -->
 
   <section
     id="choiceScreen"
     class="screen"
   >
 
-    <div class="section-glow"></div>
-
+    <div class="choice-glow"></div>
 
     <div class="choice-container">
 
       <p class="eyebrow">
-        ONE LAST LITTLE CHOICE
+        ONE LAST CHOICE
       </p>
 
 
@@ -245,45 +247,44 @@
       </div>
 
 
-      <h2>
+      <h1>
         So...
-      </h2>
+      </h1>
 
 
-      <p class="choice-main-text">
+      <p class="choice-question">
         Who are you choosing?
-      </p>
-
-
-      <p
-        id="choiceMessage"
-        class="choice-message"
-      >
-        Take your time. ✦
       </p>
 
 
       <div class="choice-buttons">
 
         <button
-          id="ahmieButton"
-          class="gold-button choice-button"
-          type="button"
-        >
-          AHMIE
-          <span>♡</span>
-        </button>
-
-
-        <button
           id="nineButton"
-          class="dark-button choice-button"
+          class="choice-button secondary-choice"
           type="button"
         >
           9
         </button>
 
+
+        <button
+          id="ahmieButton"
+          class="choice-button primary-choice"
+          type="button"
+        >
+          AHMIE ♡
+        </button>
+
       </div>
+
+
+      <p
+        id="choiceMessage"
+        class="choice-message"
+      >
+        Take your time...
+      </p>
 
     </div>
 
@@ -291,59 +292,72 @@
 
 
 
-  <!-- ==================================================
+  <!-- =====================================================
        04 — LOVE LETTER
-  =================================================== -->
+  ====================================================== -->
 
   <section
     id="letterScreen"
     class="screen"
   >
 
-    <div class="letter-glow"></div>
+    <div class="letter-background">
+
+      <div class="letter-glow"></div>
+
+    </div>
 
 
-    <div class="letter-paper">
+    <div class="letter-wrapper">
 
-      <div class="letter-decoration top">
-        ✦
+      <div class="letter-card">
+
+        <div class="letter-top">
+
+          <span>
+            FOR AHMIE
+          </span>
+
+          <span>
+            ♡
+          </span>
+
+        </div>
+
+
+        <div class="letter-decoration">
+          ✦
+        </div>
+
+
+        <h1>
+          A Little Letter
+        </h1>
+
+
+        <div
+          id="loveLetterText"
+          class="love-letter-text"
+        ></div>
+
+
+        <div class="letter-signature">
+          With love,
+          <br>
+          <strong>Inshaal ♡</strong>
+        </div>
+
+
+        <button
+          id="letterNext"
+          class="gold-button hidden"
+          type="button"
+        >
+          CONTINUE
+          <span>→</span>
+        </button>
+
       </div>
-
-
-      <p class="letter-small-title">
-        A LETTER FOR YOU
-      </p>
-
-
-      <h2 class="letter-heading">
-        Dear Ahmie,
-      </h2>
-
-
-      <div
-        id="loveLetterText"
-        class="love-letter-text"
-      ></div>
-
-
-      <div class="letter-signature">
-        — Inshaal ♡
-      </div>
-
-
-      <div class="letter-decoration bottom">
-        ♡
-      </div>
-
-
-      <button
-        id="letterNext"
-        class="gold-button hidden"
-        type="button"
-      >
-        KEEP GOING
-        <span>→</span>
-      </button>
 
     </div>
 
@@ -351,23 +365,22 @@
 
 
 
-  <!-- ==================================================
+  <!-- =====================================================
        05 — DATING QUESTIONS
-  =================================================== -->
+  ====================================================== -->
 
   <section
     id="datingScreen"
     class="screen"
   >
 
-    <div class="section-glow"></div>
-
+    <div class="dating-glow"></div>
 
     <div class="dating-container">
 
-      <p class="eyebrow">
-        NOW LET'S PLAN SOMETHING
-      </p>
+      <div class="section-label">
+        OUR LITTLE DATE
+      </div>
 
 
       <div class="dating-top">
@@ -376,33 +389,37 @@
           1 / 5
         </span>
 
+
+        <div class="progress-track">
+
+          <div
+            id="datingProgress"
+            class="progress-bar"
+          ></div>
+
+        </div>
+
       </div>
 
 
-      <div class="progress-shell">
+      <div class="dating-card">
 
         <div
-          id="datingProgress"
-          class="progress-bar"
+          id="datingStage"
+          class="dating-stage"
         ></div>
 
+
+        <button
+          id="datingNext"
+          class="gold-button hidden"
+          type="button"
+        >
+          NEXT
+          <span>→</span>
+        </button>
+
       </div>
-
-
-      <div
-        id="datingStage"
-        class="dating-stage"
-      ></div>
-
-
-      <button
-        id="datingNext"
-        class="gold-button hidden"
-        type="button"
-      >
-        NEXT
-        <span>→</span>
-      </button>
 
     </div>
 
@@ -410,34 +427,38 @@
 
 
 
-  <!-- ==================================================
+  <!-- =====================================================
        06 — OUR MEMORIES
-  =================================================== -->
+  ====================================================== -->
 
   <section
     id="memoriesScreen"
     class="screen"
   >
 
-    <div class="memories-glow"></div>
+    <div class="memories-background"></div>
 
 
     <div class="memories-container">
 
-      <p class="eyebrow">
-        OUR MEMORIES
-      </p>
+      <div class="memories-heading">
+
+        <p class="eyebrow">
+          OUR LITTLE ARCHIVE
+        </p>
 
 
-      <h2 class="memories-title">
-        Little moments,
-        <span>forever.</span>
-      </h2>
+        <h1>
+          Our Memories
+        </h1>
 
 
-      <p class="memories-subtitle">
-        Thirty little pieces of our story.
-      </p>
+        <p>
+          Thirty little pieces of time
+          worth keeping forever.
+        </p>
+
+      </div>
 
 
       <div
@@ -446,14 +467,18 @@
       ></div>
 
 
-      <button
-        id="memoriesNext"
-        class="gold-button memories-next"
-        type="button"
-      >
-        CONTINUE
-        <span>→</span>
-      </button>
+      <div class="memories-bottom">
+
+        <button
+          id="memoriesNext"
+          class="gold-button"
+          type="button"
+        >
+          KEEP GOING
+          <span>→</span>
+        </button>
+
+      </div>
 
     </div>
 
@@ -461,9 +486,9 @@
 
 
 
-  <!-- ==================================================
+  <!-- =====================================================
        07 — FULLSCREEN MEMORY VIEWER
-  =================================================== -->
+  ====================================================== -->
 
   <div
     id="memoryViewer"
@@ -484,7 +509,7 @@
       id="viewerPrevious"
       class="viewer-arrow viewer-previous"
       type="button"
-      aria-label="Previous photo"
+      aria-label="Previous image"
     >
       ‹
     </button>
@@ -495,7 +520,7 @@
       <img
         id="viewerImage"
         src=""
-        alt="Memory"
+        alt="Our Memory"
       >
 
 
@@ -513,7 +538,7 @@
       id="viewerNext"
       class="viewer-arrow viewer-next"
       type="button"
-      aria-label="Next photo"
+      aria-label="Next image"
     >
       ›
     </button>
@@ -522,43 +547,46 @@
 
 
 
-  <!-- ==================================================
+  <!-- =====================================================
        08 — CINEMATIC ANIMATION
-  =================================================== -->
+  ====================================================== -->
 
   <section
     id="animationScreen"
     class="screen cinematic-screen"
   >
 
-    <div class="cinematic-stars"></div>
+    <div
+      class="cinematic-stars"
+    ></div>
+
+
+    <div class="cinematic-glow"></div>
 
 
     <div class="cinematic-content">
 
-      <div class="cinematic-symbol">
-        ✦
-      </div>
-
-
       <p class="cinematic-small">
-        SOME STORIES
+        AND THEN...
       </p>
 
 
-      <h2
+      <h1
         id="animationText"
         class="cinematic-title"
       >
-        are meant to continue...
-      </h2>
+        Some memories
+        <br>
+        are meant to stay.
+      </h1>
 
 
       <div class="cinematic-line"></div>
 
 
-      <p class="cinematic-ending">
-        And this one is ours. ♡
+      <p class="cinematic-subtitle">
+        This little world was made
+        just for you. ♡
       </p>
 
     </div>
@@ -567,9 +595,9 @@
 
 
 
-  <!-- ==================================================
-       09 — FINAL
-  =================================================== -->
+  <!-- =====================================================
+       09 — FINAL SCREEN
+  ====================================================== -->
 
   <section
     id="finalScreen"
@@ -581,17 +609,17 @@
 
     <div class="final-container">
 
-      <p class="eyebrow">
-        THE END?
-      </p>
-
-
-      <div class="final-heart">
+      <div class="final-symbol">
         ♡
       </div>
 
 
-      <h1 class="final-title">
+      <p class="eyebrow">
+        THIS ISN'T THE END
+      </p>
+
+
+      <h1>
         Inshaal
         <span>×</span>
         Ahmie
@@ -599,9 +627,8 @@
 
 
       <p class="final-message">
-        Maybe this isn't the end.
-        Maybe it's just the beginning
-        of another beautiful chapter.
+        Whatever happens next,
+        let's make it worth remembering.
       </p>
 
 
@@ -610,15 +637,15 @@
       </div>
 
 
-      <p class="final-instagram-label">
-        If you want to talk...
+      <p class="instagram-label">
+        Find me here
       </p>
 
 
       <a
         id="instagramLink"
         class="instagram-link"
-        href="#"
+        href="https://www.instagram.com/AHME-SOLITUDE/"
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -626,10 +653,8 @@
       </a>
 
 
-      <p class="final-signature">
-        With a little love,
-        <br>
-        Inshaal ♡
+      <p class="final-small">
+        One message is enough. ♡
       </p>
 
     </div>
@@ -638,15 +663,16 @@
 
 
 
-  <!-- ==================================================
-       MEMORY DATA
-  =================================================== -->
+  <!-- =====================================================
+       SCRIPTS
+       memories.js MUST load before script.js
+  ====================================================== -->
 
   <script src="memories.js"></script>
 
-  <!-- MAIN SCRIPT -->
-
   <script src="script.js"></script>
 
+
 </body>
+
 </html>
