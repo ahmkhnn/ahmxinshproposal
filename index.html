@@ -1,1 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Little World ❤️</title>
+  <link rel="stylesheet" href="style.css">
+</head>
 
+<body>
+
+  <!-- Password Screen -->
+  <div id="lockScreen" class="screen">
+    <div class="card">
+      <div class="heart">❤️</div>
+      <h1>Our Little World</h1>
+      <p>Enter the secret code to enter ✨</p>
+
+      <input
+        type="password"
+        id="passwordInput"
+        placeholder="Enter code"
+        maxlength="20"
+      >
+
+      <button onclick="checkPassword()">Unlock 💕</button>
+
+      <p id="errorMessage"></p>
+    </div>
+  </div>
+
+  <!-- Main Website -->
+  <main id="mainContent" class="hidden">
+
+    <header>
+      <div class="status">● LIVE</div>
+      <h1>Welcome to Our World ❤️</h1>
+      <p>A tiny place made with a lot of love.</p>
+    </header>
+
+    <section class="hero">
+      <div class="hero-card">
+        <span>✨</span>
+        <h2>“Even the smallest moments become memories.”</h2>
+        <p>— Our Story</p>
+      </div>
+    </section>
+
+    <!-- Love Counter -->
+    <section class="section">
+      <h2>💗 Love Calculator</h2>
+
+      <div class="calculator">
+        <input type="text" id="name1" placeholder="Your name">
+        <span>❤️</span>
+        <input type="text" id="name2" placeholder="Their name">
+
+        <button onclick="calculateLove()">Calculate Love</button>
+
+        <div id="loveResult"></div>
+      </div>
+    </section>
+
+    <!-- Funny Proposal -->
+    <section class="section">
+      <h2>💌 One Important Question</h2>
+
+      <div class="proposal-card">
+        <h3 id="proposalText">Will you stay with me forever? 🥺❤️</h3>
+
+        <div class="buttons">
+          <button onclick="sayYes()">YES ❤️</button>
+          <button id="noButton" onclick="runAway()">NO 😭</button>
+        </div>
+
+        <p id="yesMessage"></p>
+      </div>
+    </section>
+
+    <!-- Memories -->
+    <section class="section">
+      <h2>📸 Our Memories</h2>
+
+      <div id="memoriesContainer" class="memories"></div>
+    </section>
+
+    <footer>
+      <p>Made with ❤️ just for you.</p>
+      <p>© 2026 Our Little World</p>
+    </footer>
+
+  </main>
+
+  <script src="memories.js"></script>
+  <script src="script.js"></script>
+
+</body>
+</html>
