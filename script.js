@@ -1,247 +1,893 @@
-const PASSWORD = "2628";
+/* =====================================================
+   INSHAAL × AHMIE
+   MAIN WEBSITE SCRIPT
+===================================================== */
+
+
+/* =====================================================
+   GLOBAL
+===================================================== */
 
 let currentQuestion = 0;
 let currentDatingQuestion = 0;
 let currentPhoto = 0;
 
+let selectedCode = [];
 
-/* =========================
-   SCREEN SYSTEM
-========================= */
+const correctCode = ["2", "6", "2", "8"];
+
+
+/* =====================================================
+   SCREEN NAVIGATION
+===================================================== */
 
 function showScreen(id) {
+
   document.querySelectorAll(".screen").forEach(screen => {
     screen.classList.remove("active");
   });
 
-  document.getElementById(id).classList.add("active");
+  const target = document.getElementById(id);
+
+  if (target) {
+    target.classList.add("active");
+  }
 
   window.scrollTo({
     top: 0,
     behavior: "smooth"
   });
+
+  createParticles();
 }
 
 
-/* =========================
-   PASSWORD
-========================= */
+/* =====================================================
+   PARTICLES
+===================================================== */
 
-function unlock() {
-  const input = document.getElementById("passwordInput");
-  const error = document.getElementById("passwordError");
+function createParticles() {
 
-  if (input.value === PASSWORD) {
-    showScreen("questionsScreen");
-    loadQuestion();
-  } else {
-    error.textContent = "Wrong code 😭❤️";
-    input.value = "";
-    input.focus();
+  const container = document.getElementById("particles");
+
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  for (let i = 0; i < 35; i++) {
+
+    const particle = document.createElement("div");
+
+    particle.className = "particle";
+
+    particle.style.left =
+      Math.random() * 100 + "%";
+
+    particle.style.animationDuration =
+      (5 + Math.random() * 8) + "s";
+
+    particle.style.animationDelay =
+      Math.random() * 5 + "s";
+
+    particle.style.opacity =
+      Math.random();
+
+    container.appendChild(particle);
   }
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-  document
-    .getElementById("passwordInput")
-    .addEventListener("keydown", function (event) {
-      if (event.key === "Enter") {
-        unlock();
+
+/* =====================================================
+   FLOATING HEARTS
+===================================================== */
+
+function createFloatingHearts(amount = 18) {
+
+  const container =
+    document.getElementById("floatingHearts");
+
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  for (let i = 0; i < amount; i++) {
+
+    const heart = document.createElement("span");
+
+    heart.textContent =
+      Math.random() > .5 ? "♡" : "✦";
+
+    heart.style.position = "fixed";
+
+    heart.style.left =
+      Math.random() * 100 + "vw";
+
+    heart.style.top =
+      (70 + Math.random() * 30) + "vh";
+
+    heart.style.color =
+      "#d4af37";
+
+    heart.style.fontSize =
+      (10 + Math.random() * 18) + "px";
+
+    heart.style.opacity =
+      .2 + Math.random() * .6;
+
+    heart.style.pointerEvents =
+      "none";
+
+    heart.style.zIndex = "50";
+
+    heart.style.transition =
+      "transform 5s ease, opacity 5s ease";
+
+    container.appendChild(heart);
+
+    setTimeout(() => {
+
+      heart.style.transform =
+        `translateY(-${window.innerHeight + 200}px)
+         translateX(${Math.random() * 100 - 50}px)
+         rotate(${Math.random() * 90 - 45}deg)`;
+
+      heart.style.opacity = "0";
+
+    }, 100 + i * 80);
+  }
+
+  setTimeout(() => {
+    container.innerHTML = "";
+  }, 6500);
+}
+
+
+/* =====================================================
+   01 — PASSWORD
+===================================================== */
+
+function setupPassword() {
+
+  const orbs =
+    document.querySelectorAll(".code-orb");
+
+  const selected =
+    document.querySelectorAll(".selected-code span");
+
+  const message =
+    document.getElementById("codeMessage");
+
+  const unlock =
+    document.getElementById("unlockButton");
+
+
+  orbs.forEach(orb => {
+
+    orb.addEventListener("click", () => {
+
+      if (selectedCode.length >= 4) {
+        return;
+      }
+
+      const number =
+        orb.dataset.number;
+
+
+      /*
+        Wrong number
+      */
+
+      if (
+        number !== correctCode[selectedCode.length]
+      ) {
+
+        orb.classList.remove("wrong");
+
+        void orb.offsetWidth;
+
+        orb.classList.add("wrong");
+
+        message.textContent =
+          "Not that one... try again. ♡";
+
+        message.style.color =
+          "#9d5757";
+
+        setTimeout(() => {
+          message.textContent =
+            "Choose the numbers in order.";
+
+          message.style.color =
+            "";
+        }, 1000);
+
+        return;
+      }
+
+
+      /*
+        Correct number
+      */
+
+      selectedCode.push(number);
+
+      orb.classList.add("selected");
+
+
+      selected[selectedCode.length - 1]
+        .textContent = number;
+
+
+      message.textContent =
+        "Yes... keep going. ✦";
+
+
+      /*
+        Complete code
+      */
+
+      if (selectedCode.length === 4) {
+
+        message.textContent =
+          "You remembered. ❤️";
+
+        message.classList.add("success");
+
+        unlock.classList.remove("hidden");
+
+        createFloatingHearts(25);
+
+        orbs.forEach(item => {
+          item.style.pointerEvents = "none";
+        });
       }
     });
-
-  loadMemories();
-});
+  });
 
 
-/* =========================
-   5 QUESTIONS
-========================= */
+  unlock.addEventListener("click", () => {
 
-const questions = [
-  {
-    question: "What makes a moment truly special?",
-    options: [
-      "The person you're with ❤️",
-      "The place ✨",
-      "The memories 🥹"
-    ]
-  },
-  {
-    question: "If we could go anywhere together, what would you choose?",
-    options: [
-      "A peaceful beach 🌊",
-      "A beautiful city 🌃",
-      "Anywhere together ❤️"
-    ]
-  },
-  {
-    question: "What's more important in a relationship?",
-    options: [
-      "Trust 🤝",
-      "Love ❤️",
-      "Both forever 💕"
-    ]
-  },
-  {
-    question: "What's your favorite kind of date?",
-    options: [
-      "Long walk 🌹",
-      "Dinner together 🍽️",
-      "Just spending time together 🫶"
-    ]
-  },
-  {
-    question: "And finally... who should stay forever?",
-    options: [
-      "The one who makes you smile ❤️",
-      "The one who understands you 🥹",
-      "The one who chooses you every day 💍"
-    ]
-  }
-];
+    unlock.style.transform =
+      "scale(.95)";
 
-function loadQuestion() {
-  const q = questions[currentQuestion];
+    setTimeout(() => {
 
-  document.getElementById("questionNumber").textContent =
-    `Question ${currentQuestion + 1} of ${questions.length}`;
+      showScreen("questionsScreen");
 
-  document.getElementById("questionText").textContent =
-    q.question;
+      loadQuestion();
 
-  const options =
-    document.getElementById("questionOptions");
-
-  options.innerHTML = "";
-
-  q.options.forEach(option => {
-    const button = document.createElement("button");
-
-    button.textContent = option;
-
-    button.onclick = function () {
-      answerQuestion();
-    };
-
-    options.appendChild(button);
+    }, 250);
   });
 }
 
-function answerQuestion() {
-  currentQuestion++;
 
-  if (currentQuestion >= questions.length) {
-    setTimeout(() => {
-      showScreen("chooseScreen");
-    }, 250);
+/* =====================================================
+   02 — NINE QUESTIONS
+===================================================== */
 
-    return;
+const questions = [
+
+  {
+    title: "Question One",
+    text: "If you could keep one thing forever, what would it be?",
+    options: [
+      "A beautiful memory",
+      "A special person",
+      "A feeling that never fades"
+    ]
+  },
+
+  {
+    title: "Question Two",
+    text: "What makes a connection truly special?",
+    options: [
+      "Trust",
+      "Understanding",
+      "Choosing each other"
+    ]
+  },
+
+  {
+    title: "Question Three",
+    text: "What's better?",
+    options: [
+      "A long conversation at night",
+      "Laughing over something stupid",
+      "Just being together"
+    ]
+  },
+
+  {
+    title: "Question Four",
+    text: "If we could disappear somewhere for a day...",
+    options: [
+      "Beach 🌊",
+      "Beautiful city 🌃",
+      "Somewhere nobody knows us"
+    ]
+  },
+
+  {
+    title: "Question Five",
+    text: "What's the best kind of date?",
+    options: [
+      "A peaceful walk 🌙",
+      "Dinner together 🍽️",
+      "A completely random adventure"
+    ]
+  },
+
+  {
+    title: "Question Six",
+    text: "Would you keep the silly memories too?",
+    options: [
+      "Of course 😂",
+      "Especially those",
+      "Every single one"
+    ]
+  },
+
+  {
+    title: "Question Seven",
+    text: "What's more important?",
+    options: [
+      "Words",
+      "Actions",
+      "Both"
+    ]
+  },
+
+  {
+    title: "Question Eight",
+    text: "If someone genuinely chooses you...",
+    options: [
+      "I'd appreciate it",
+      "I'd choose them too",
+      "I'd never forget it"
+    ]
+  },
+
+  {
+    title: "Question Nine",
+    text: "And if this little story continued...",
+    options: [
+      "I'd keep reading",
+      "Maybe...",
+      "Let's see where it goes ❤️"
+    ]
   }
 
-  loadQuestion();
+];
+
+
+function loadQuestion() {
+
+  const question =
+    questions[currentQuestion];
+
+  const stage =
+    document.getElementById("questionStage");
+
+  const title =
+    document.getElementById("questionTitle");
+
+  const subtitle =
+    document.getElementById("questionSubtitle");
+
+  const counter =
+    document.getElementById("questionCounter");
+
+  const progress =
+    document.getElementById("questionProgress");
+
+  const next =
+    document.getElementById("questionNext");
+
+
+  title.textContent =
+    question.title;
+
+  subtitle.textContent =
+    question.text;
+
+  counter.textContent =
+    `${currentQuestion + 1} / ${questions.length}`;
+
+  progress.style.width =
+    `${((currentQuestion + 1) / questions.length) * 100}%`;
+
+
+  stage.innerHTML = "";
+
+  next.classList.add("hidden");
+
+
+  question.options.forEach(option => {
+
+    const button =
+      document.createElement("button");
+
+    button.className =
+      "question-option";
+
+    button.textContent =
+      option;
+
+
+    button.addEventListener("click", () => {
+
+      stage
+        .querySelectorAll(".question-option")
+        .forEach(item => {
+          item.classList.remove("correct");
+        });
+
+      button.classList.add("correct");
+
+      next.classList.remove("hidden");
+
+      createFloatingHearts(5);
+    });
+
+
+    stage.appendChild(button);
+  });
 }
 
 
-/* =========================
-   INSHAAL CHOOSES AHMIE
-========================= */
+document
+  .getElementById("questionNext")
+  .addEventListener("click", () => {
 
-function chooseAhmie() {
-  document.getElementById("choiceMessage").textContent =
-    "Obviously Ahmie. There was never another choice. ❤️";
+    currentQuestion++;
 
-  createHearts();
+    if (currentQuestion >= questions.length) {
 
-  setTimeout(() => {
-    showScreen("letterScreen");
-    typeLetter();
-  }, 1500);
+      showScreen("choiceScreen");
+
+      setupChoice();
+
+      return;
+    }
+
+    loadQuestion();
+  });
+
+
+/* =====================================================
+   03 — PLAYFUL 9 CHOICE
+===================================================== */
+
+function setupChoice() {
+
+  const ahmie =
+    document.getElementById("ahmieButton");
+
+  const nine =
+    document.getElementById("nineButton");
+
+  const message =
+    document.getElementById("choiceMessage");
+
+
+  let phase = 0;
+
+
+  /*
+    First click: 9
+  */
+
+  nine.onclick = () => {
+
+    if (phase === 0) {
+
+      phase = 1;
+
+      message.textContent =
+        "Are you sure? 👀";
+
+      nine.textContent =
+        "Are you sure?";
+
+      nine.classList.remove("dark-button");
+
+      nine.classList.add("gold-button");
+
+      ahmie.style.opacity = "0.65";
+
+      return;
+    }
+
+
+    /*
+      Second click
+    */
+
+    if (phase === 1) {
+
+      phase = 2;
+
+      message.textContent =
+        "Okay... then press this. 😭";
+
+      nine.textContent =
+        "ARE YOU REALLY SURE?";
+
+      nine.style.transform =
+        "scale(1.08)";
+
+      return;
+    }
+
+
+    /*
+      Third click
+    */
+
+    if (phase === 2) {
+
+      phase = 3;
+
+      message.textContent =
+        "Fine. You win. 😂❤️";
+
+      nine.textContent =
+        "CHOOSE AHMIE";
+
+      nine.style.transform =
+        "scale(1)";
+
+      return;
+    }
+
+
+    /*
+      Final click
+    */
+
+    if (phase === 3) {
+
+      message.textContent =
+        "Exactly what I thought. ❤️";
+
+      createFloatingHearts(35);
+
+      setTimeout(() => {
+
+        showScreen("letterScreen");
+
+        startLoveLetter();
+
+      }, 1400);
+    }
+
+  };
+
+
+  ahmie.onclick = () => {
+
+    message.textContent =
+      "You didn't even hesitate... ❤️";
+
+    createFloatingHearts(35);
+
+    setTimeout(() => {
+
+      showScreen("letterScreen");
+
+      startLoveLetter();
+
+    }, 1200);
+  };
 }
 
-function moveChoice() {
-  const button = document.getElementById("otherChoice");
 
-  const x =
-    Math.random() * 180 - 90;
+/* =====================================================
+   04 — LOVE LETTER
+===================================================== */
 
-  const y =
-    Math.random() * 120 - 60;
+const loveLetter = `Tum jisey bhi choose karo,
+mere liye tum tum hi ho.
 
-  button.style.transform =
-    `translate(${x}px, ${y}px)`;
+Mere liye tum sirf koi ek person nahi ho.
+Tum meri woh dost ho jiske saath
+main hamesha ek connection feel karta rahunga.
 
-  document.getElementById("choiceMessage").textContent =
-    "Nice try 😭❤️";
-}
+Best friend forever.
+
+Aur haan...
+is letter ko ignore mat karna,
+aur blush bhi mat karna. ♡
+
+Kuch bhi ho jaye,
+main tumhari life se bas yun hi gayab
+hone wala nahi hoon.
+
+Pehle jo hua...
+usmein meri bhi galtiyan thi.
+
+Ek waqt tha jab maine socha tha
+ke shayad tum wapas aa jaogi,
+aur jab tum nahi aayi,
+toh bahut si baatein andar reh gayi.
+
+Lekin ab main sirf words nahi bolna chahta.
+
+Ab main apne efforts se dikhana chahta hoon
+ke tum mere liye kitni important ho.
+
+Main tumhare saath rahunga,
+tumhare liye better banne ki koshish karunga,
+aur jo keh raha hoon,
+woh actions se prove karunga.
+
+Tumhe apni choice hamesha khud karni hai.
+Main tumhari choice ki respect karunga.
+
+Bas itna zaroor hai...
+
+Agar tum kabhi peeche mud kar dekho,
+toh main chahta hoon ke tumhe
+ek aisa dost mile jo genuinely tumhare liye tha.
+
+Aur agar story ka agla chapter
+hum dono ke naam hua...
+
+toh shayad woh sabse khoobsurat chapter hoga.
+
+— Inshaal ♡`;
 
 
-/* =========================
-   LOVE LETTER
-========================= */
+function startLoveLetter() {
 
-const loveLetter = `Ahmie,
-
-If you're reading this, then you made it all the way here.
-
-I don't know exactly where every road will take us, but I know that some people make life feel a little more beautiful just by being part of it.
-
-The little conversations, the random moments, the laughs, and even the silly things become memories that are worth keeping.
-
-And if I had to choose someone to make more memories with...
-
-I'd choose you.
-
-Not just for one moment.
-Not just for one day.
-
-But for all the little moments that come after.
-
-With love,
-Inshaal ❤️`;
-
-function typeLetter() {
   const element =
-    document.getElementById("letterText");
+    document.getElementById("loveLetterText");
+
+  const next =
+    document.getElementById("letterNext");
 
   element.textContent = "";
 
+  next.classList.add("hidden");
+
   let index = 0;
 
-  const timer = setInterval(() => {
-    element.textContent += loveLetter[index];
 
-    index++;
+  const typing =
+    setInterval(() => {
 
-    if (index >= loveLetter.length) {
-      clearInterval(timer);
+      element.textContent +=
+        loveLetter[index];
+
+      index++;
+
+
+      if (index >= loveLetter.length) {
+
+        clearInterval(typing);
+
+        setTimeout(() => {
+
+          next.classList.remove("hidden");
+
+          createFloatingHearts(12);
+
+        }, 800);
+      }
+
+    }, 18);
+}
+
+
+document
+  .getElementById("letterNext")
+  .addEventListener("click", () => {
+
+    showScreen("datingScreen");
+
+    loadDatingQuestion();
+
+  });
+
+
+/* =====================================================
+   05 — DATING QUESTIONS
+===================================================== */
+
+const datingQuestions = [
+
+  {
+    question: "Where should our first little adventure be?",
+    options: [
+      "A quiet café ☕",
+      "A long evening walk 🌙",
+      "Somewhere completely random ✨"
+    ]
+  },
+
+  {
+    question: "What are we doing first?",
+    options: [
+      "Getting food 🍕",
+      "Taking pictures 📸",
+      "Talking for hours"
+    ]
+  },
+
+  {
+    question: "What's the perfect evening?",
+    options: [
+      "City lights 🌃",
+      "Stars and silence ✨",
+      "Laughing until midnight"
+    ]
+  },
+
+  {
+    question: "What should we never forget?",
+    options: [
+      "The little moments",
+      "The stupid jokes 😂",
+      "How we started"
+    ]
+  },
+
+  {
+    question: "And if the date goes perfectly...",
+    options: [
+      "One more hour ❤️",
+      "One more day",
+      "Let's plan the next one"
+    ]
+  }
+
+];
+
+
+function loadDatingQuestion() {
+
+  const question =
+    datingQuestions[currentDatingQuestion];
+
+  const stage =
+    document.getElementById("datingStage");
+
+  const counter =
+    document.getElementById("datingCounter");
+
+  const progress =
+    document.getElementById("datingProgress");
+
+  const next =
+    document.getElementById("datingNext");
+
+
+  stage.innerHTML = "";
+
+  next.classList.add("hidden");
+
+
+  counter.textContent =
+    `${currentDatingQuestion + 1} / ${datingQuestions.length}`;
+
+
+  progress.style.width =
+    `${((currentDatingQuestion + 1) /
+       datingQuestions.length) * 100}%`;
+
+
+  const heading =
+    document.createElement("h3");
+
+  heading.textContent =
+    question.question;
+
+  heading.style.marginBottom =
+    "25px";
+
+  heading.style.fontSize =
+    "26px";
+
+  stage.appendChild(heading);
+
+
+  question.options.forEach(option => {
+
+    const button =
+      document.createElement("button");
+
+    button.className =
+      "dating-option";
+
+    button.textContent =
+      option;
+
+
+    button.addEventListener("click", () => {
+
+      stage
+        .querySelectorAll(".dating-option")
+        .forEach(item => {
+          item.classList.remove("selected");
+        });
+
+      button.classList.add("selected");
+
+      next.classList.remove("hidden");
+
+      createFloatingHearts(5);
+    });
+
+
+    stage.appendChild(button);
+  });
+}
+
+
+document
+  .getElementById("datingNext")
+  .addEventListener("click", () => {
+
+    currentDatingQuestion++;
+
+
+    if (
+      currentDatingQuestion >=
+      datingQuestions.length
+    ) {
+
+      showScreen("memoriesScreen");
+
+      loadMemories();
+
+      return;
     }
-  }, 18);
-}
-
-function showMemories() {
-  showScreen("memoriesScreen");
-}
 
 
-/* =========================
-   MEMORIES
-========================= */
+    loadDatingQuestion();
+  });
+
+
+/* =====================================================
+   06 — MEMORIES
+===================================================== */
 
 function loadMemories() {
+
   const grid =
     document.getElementById("memoryGrid");
 
-  if (!grid || !Array.isArray(memories)) {
-    return;
-  }
+  if (!grid) return;
 
   grid.innerHTML = "";
 
-  memories.forEach((photo, index) => {
-    const card = document.createElement("div");
 
-    card.className = "memory-card";
+  if (
+    typeof memories === "undefined" ||
+    !Array.isArray(memories)
+  ) {
+
+    grid.innerHTML = `
+      <p style="
+        grid-column:1/-1;
+        color:#d4af37;
+      ">
+        Memories are waiting to be added...
+      </p>
+    `;
+
+    return;
+  }
+
+
+  memories.forEach((photo, index) => {
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "memory-card";
+
 
     card.innerHTML = `
       <img
@@ -250,207 +896,304 @@ function loadMemories() {
         loading="lazy"
       >
 
-      <div class="memory-number">
-        Memory ${index + 1}
-      </div>
+      <span class="memory-number">
+        MEMORY ${String(index + 1).padStart(2, "0")}
+      </span>
     `;
 
-    card.onclick = function () {
+
+    card.addEventListener("click", () => {
+
       openViewer(index);
-    };
+
+    });
+
 
     grid.appendChild(card);
   });
 }
 
 
-/* =========================
-   FULLSCREEN PHOTO VIEWER
-========================= */
+/* =====================================================
+   FULLSCREEN VIEWER
+===================================================== */
 
 function openViewer(index) {
+
+  if (
+    typeof memories === "undefined" ||
+    !memories[index]
+  ) {
+    return;
+  }
+
   currentPhoto = index;
 
-  document
-    .getElementById("viewer")
-    .classList.add("active");
+  const viewer =
+    document.getElementById("memoryViewer");
+
+  viewer.classList.add("active");
 
   updateViewer();
+
+  document.body.style.overflow =
+    "hidden";
 }
+
 
 function closeViewer() {
+
   document
-    .getElementById("viewer")
+    .getElementById("memoryViewer")
     .classList.remove("active");
+
+  document.body.style.overflow =
+    "";
 }
 
+
 function updateViewer() {
+
   const image =
     document.getElementById("viewerImage");
 
-  image.src = memories[currentPhoto];
+  const counter =
+    document.getElementById("viewerCounter");
 
-  document.getElementById("viewerCounter").textContent =
-    `${currentPhoto + 1} / ${memories.length}`;
+
+  image.style.opacity = "0";
+
+
+  setTimeout(() => {
+
+    image.src =
+      memories[currentPhoto];
+
+    image.onload = () => {
+
+      image.style.transition =
+        "opacity .4s ease";
+
+      image.style.opacity =
+        "1";
+    };
+
+  }, 100);
+
+
+  counter.textContent =
+    `${String(currentPhoto + 1).padStart(2, "0")} / ${String(memories.length).padStart(2, "0")}`;
 }
 
+
 function nextPhoto() {
+
   currentPhoto++;
 
-  if (currentPhoto >= memories.length) {
+  if (
+    currentPhoto >= memories.length
+  ) {
     currentPhoto = 0;
   }
 
   updateViewer();
 }
 
+
 function previousPhoto() {
+
   currentPhoto--;
 
   if (currentPhoto < 0) {
-    currentPhoto = memories.length - 1;
+    currentPhoto =
+      memories.length - 1;
   }
 
   updateViewer();
 }
 
-document.addEventListener("keydown", function (event) {
-  const viewer =
-    document.getElementById("viewer");
 
-  if (!viewer.classList.contains("active")) {
-    return;
-  }
-
-  if (event.key === "ArrowRight") {
-    nextPhoto();
-  }
-
-  if (event.key === "ArrowLeft") {
-    previousPhoto();
-  }
-
-  if (event.key === "Escape") {
-    closeViewer();
-  }
-});
+document
+  .getElementById("viewerClose")
+  .addEventListener(
+    "click",
+    closeViewer
+  );
 
 
-/* =========================
-   DATING QUESTIONS
-========================= */
+document
+  .getElementById("viewerNext")
+  .addEventListener(
+    "click",
+    nextPhoto
+  );
 
-const datingQuestions = [
-  {
-    question: "Would you go on a late-night walk with me? 🌙",
-    options: [
-      "Absolutely ❤️",
-      "Only if there's food 😂",
-      "Maybe 😏"
-    ]
-  },
-  {
-    question: "Would you choose a cozy movie night together? 🍿",
-    options: [
-      "Yes ❤️",
-      "Obviously 🫶",
-      "Only if I choose the movie 😂"
-    ]
-  },
-  {
-    question: "Would you make a memory with me that we'd never forget? 🌹",
-    options: [
-      "Always ❤️",
-      "Of course 🥹",
-      "Already planning it 💕"
-    ]
-  }
-];
 
-function showDating() {
-  showScreen("datingScreen");
-  loadDatingQuestion();
-}
+document
+  .getElementById("viewerPrevious")
+  .addEventListener(
+    "click",
+    previousPhoto
+  );
 
-function loadDatingQuestion() {
-  const q =
-    datingQuestions[currentDatingQuestion];
 
-  document.getElementById("datingQuestion").textContent =
-    q.question;
+document
+  .getElementById("memoryViewer")
+  .addEventListener("click", event => {
 
-  const options =
-    document.getElementById("datingOptions");
+    if (
+      event.target.id ===
+      "memoryViewer"
+    ) {
+      closeViewer();
+    }
 
-  options.innerHTML = "";
-
-  q.options.forEach(option => {
-    const button = document.createElement("button");
-
-    button.textContent = option;
-
-    button.onclick = function () {
-      answerDating();
-    };
-
-    options.appendChild(button);
   });
-}
 
-function answerDating() {
-  currentDatingQuestion++;
 
-  if (currentDatingQuestion >= datingQuestions.length) {
-    document.getElementById("datingMessage").textContent =
-      "Okay... I think we're ready for the final question. ❤️";
+/* Keyboard only for PHOTO VIEWER.
+   Password does NOT use keyboard. */
 
-    setTimeout(() => {
-      showScreen("finalScreen");
-      createHearts();
-    }, 1200);
+document.addEventListener(
+  "keydown",
+  event => {
 
-    return;
+    const viewer =
+      document.getElementById(
+        "memoryViewer"
+      );
+
+    if (
+      !viewer.classList.contains("active")
+    ) {
+      return;
+    }
+
+    if (event.key === "ArrowRight") {
+      nextPhoto();
+    }
+
+    if (event.key === "ArrowLeft") {
+      previousPhoto();
+    }
+
+    if (event.key === "Escape") {
+      closeViewer();
+    }
   }
+);
 
-  loadDatingQuestion();
+
+/* =====================================================
+   SWIPE SUPPORT FOR PHOTOS
+===================================================== */
+
+let touchStartX = 0;
+let touchEndX = 0;
+
+
+const viewer =
+  document.getElementById("memoryViewer");
+
+
+viewer.addEventListener(
+  "touchstart",
+  event => {
+
+    touchStartX =
+      event.changedTouches[0].screenX;
+
+  },
+  { passive: true }
+);
+
+
+viewer.addEventListener(
+  "touchend",
+  event => {
+
+    touchEndX =
+      event.changedTouches[0].screenX;
+
+    const difference =
+      touchStartX - touchEndX;
+
+
+    if (Math.abs(difference) < 50) {
+      return;
+    }
+
+
+    if (difference > 0) {
+      nextPhoto();
+    } else {
+      previousPhoto();
+    }
+
+  },
+  { passive: true }
+);
+
+
+/* =====================================================
+   07 — CINEMATIC ANIMATION
+===================================================== */
+
+function startCinematicAnimation() {
+
+  showScreen("animationScreen");
+
+  createFloatingHearts(40);
+
+
+  setTimeout(() => {
+
+    showScreen("finalScreen");
+
+    createFloatingHearts(50);
+
+  }, 6500);
 }
 
 
-/* =========================
-   HEARTS
-========================= */
+/* =====================================================
+   MEMORIES → CINEMATIC
+===================================================== */
 
-function createHearts() {
-  for (let i = 0; i < 18; i++) {
-    const heart = document.createElement("div");
+document
+  .getElementById("memoriesNext")
+  .addEventListener("click", () => {
 
-    heart.textContent = "❤️";
+    startCinematicAnimation();
 
-    heart.style.position = "fixed";
-    heart.style.left =
-      Math.random() * 100 + "vw";
+  });
 
-    heart.style.top = "100vh";
-    heart.style.zIndex = "9999";
-    heart.style.pointerEvents = "none";
 
-    heart.style.fontSize =
-      Math.random() * 20 + 15 + "px";
+/* =====================================================
+   INSTAGRAM
+===================================================== */
 
-    heart.style.transition =
-      "transform 2.5s ease, opacity 2.5s ease";
+const instagramLink =
+  document.getElementById("instagramLink");
 
-    document.body.appendChild(heart);
 
-    setTimeout(() => {
-      heart.style.transform =
-        `translateY(-${window.innerHeight + 150}px)`;
+/*
+  IMPORTANT:
+  Instagram usernames cannot contain "-".
+  Replace the username below with the exact
+  real Instagram username once confirmed.
+*/
 
-      heart.style.opacity = "0";
-    }, 50);
+const instagramUsername =
+  "AHME-SOLITUDE";
 
-    setTimeout(() => {
-      heart.remove();
-    }, 2600);
-  }
-}
+
+instagramLink.textContent =
+  "@" + instagramUsername;
+
+instagramLink.href =
+  "https://www.instagram.com/" +
+  instagramUsername;
+
+
+/* ==============
