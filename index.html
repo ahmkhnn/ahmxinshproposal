@@ -3,141 +3,567 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Inshaal × Ahmie ❤️</title>
+
+  <title>Inshaal × Ahmie</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&display=swap"
+    rel="stylesheet"
+  >
+
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <!-- PASSWORD -->
+  <!-- =========================
+       GLOBAL EFFECTS
+  ========================== -->
+
+  <div id="particles"></div>
+  <div id="floatingHearts"></div>
+
+
+  <!-- =========================
+       01 — PASSWORD
+  ========================== -->
+
   <section id="passwordScreen" class="screen active">
-    <div class="glass-card">
-      <div class="big-heart">❤️</div>
-      <p class="small-title">A LITTLE SECRET</p>
-      <h1>Our Little World</h1>
-      <p>Enter the secret code to continue...</p>
 
-      <input id="passwordInput" type="password" placeholder="Secret code">
-      <button onclick="unlock()">Unlock ❤️</button>
+    <div class="password-glow"></div>
 
-      <p id="passwordError" class="error"></p>
-    </div>
-  </section>
+    <div class="password-container">
 
+      <p class="eyebrow">
+        A SECRET BETWEEN US
+      </p>
 
-  <!-- 5 QUESTIONS -->
-  <section id="questionsScreen" class="screen">
-    <div class="glass-card question-card">
-      <p id="questionNumber">Question 1 of 5</p>
-      <h1 id="questionText"></h1>
-
-      <div id="questionOptions"></div>
-
-      <p id="questionMessage"></p>
-    </div>
-  </section>
-
-
-  <!-- INSHAAL CHOOSES AHMIE -->
-  <section id="chooseScreen" class="screen">
-    <div class="glass-card">
-      <div class="big-heart">💗</div>
-      <p class="small-title">ONE LAST CHOICE</p>
-      <h1>Who does Inshaal choose?</h1>
-
-      <div class="choice-buttons">
-        <button onclick="chooseAhmie()">Ahmie ❤️</button>
-        <button id="otherChoice" onclick="moveChoice()">Someone else 😭</button>
+      <div class="lock-icon">
+        ♡
       </div>
 
-      <p id="choiceMessage"></p>
+      <h1>
+        Enter Our World
+      </h1>
+
+      <p class="password-subtitle">
+        Four numbers are written in the stars.
+      </p>
+
+
+      <!-- Floating digits + letters -->
+
+      <div id="codeUniverse" class="code-universe">
+
+        <button
+          class="code-orb"
+          data-number="2"
+          data-letter="L"
+        >
+          <span class="number">2</span>
+          <span class="letter">L</span>
+        </button>
+
+        <button
+          class="code-orb"
+          data-number="6"
+          data-letter="O"
+        >
+          <span class="number">6</span>
+          <span class="letter">O</span>
+        </button>
+
+        <button
+          class="code-orb"
+          data-number="2"
+          data-letter="V"
+        >
+          <span class="number">2</span>
+          <span class="letter">V</span>
+        </button>
+
+        <button
+          class="code-orb"
+          data-number="8"
+          data-letter="E"
+        >
+          <span class="number">8</span>
+          <span class="letter">E</span>
+        </button>
+
+      </div>
+
+
+      <div class="love-word">
+        <span>L</span>
+        <span>O</span>
+        <span>V</span>
+        <span>E</span>
+      </div>
+
+
+      <div id="selectedCode" class="selected-code">
+        <span>_</span>
+        <span>_</span>
+        <span>_</span>
+        <span>_</span>
+      </div>
+
+
+      <p id="codeMessage" class="code-message">
+        Choose the numbers in order.
+      </p>
+
+
+      <button
+        id="unlockButton"
+        class="gold-button hidden"
+      >
+        NEXT
+        <span>→</span>
+      </button>
+
     </div>
+
   </section>
 
 
-  <!-- LOVE LETTER -->
-  <section id="letterScreen" class="screen">
-    <div class="glass-card letter-card">
-      <div class="big-heart">💌</div>
-      <p class="small-title">A LETTER FOR YOU</p>
-      <h1>Dear Ahmie,</h1>
 
-      <div id="letterText" class="letter-text"></div>
+  <!-- =========================
+       02 — 9 QUESTIONS
+  ========================== -->
 
-      <button onclick="showMemories()">Our Memories 📸</button>
+  <section id="questionsScreen" class="screen">
+
+    <div class="gold-black-card">
+
+      <p class="eyebrow">
+        CHAPTER II
+      </p>
+
+      <h2 id="questionTitle">
+        I have something to ask you...
+      </h2>
+
+      <p id="questionSubtitle">
+        Be honest with me. ♡
+      </p>
+
+
+      <div id="questionStage">
+      </div>
+
+
+      <div class="question-progress">
+
+        <div class="progress-bar">
+          <div id="questionProgress"></div>
+        </div>
+
+        <span id="questionCounter">
+          1 / 9
+        </span>
+
+      </div>
+
+
+      <button
+        id="questionNext"
+        class="gold-button hidden"
+      >
+        NEXT →
+      </button>
+
     </div>
+
   </section>
 
 
-  <!-- MEMORIES -->
-  <section id="memoriesScreen" class="screen wide-screen">
-    <div class="page-content">
-      <p class="small-title">OUR STORY</p>
-      <h1>📸 Our Memories</h1>
-      <p class="subtitle">30 little pieces of our story ❤️</p>
 
-      <div id="memoryGrid" class="memory-grid"></div>
+  <!-- =========================
+       03 — INSHAAL CHOOSES AHMIE
+  ========================== -->
 
-      <button onclick="showDating()">Continue 🌹</button>
+  <section id="choiceScreen" class="screen">
+
+    <div class="choice-container">
+
+      <p class="eyebrow">
+        ONE LAST CHOICE
+      </p>
+
+      <div class="choice-heart">
+        ♡
+      </div>
+
+      <h2>
+        Who does Inshaal choose?
+      </h2>
+
+      <p>
+        Think carefully...
+      </p>
+
+
+      <div class="choice-area">
+
+        <button
+          id="ahmieButton"
+          class="gold-button choice-button"
+        >
+          AHMIE ❤️
+        </button>
+
+        <button
+          id="nineButton"
+          class="dark-button choice-button"
+        >
+          9
+        </button>
+
+      </div>
+
+
+      <p id="choiceMessage">
+      </p>
+
     </div>
+
   </section>
 
 
-  <!-- FULLSCREEN VIEWER -->
-  <div id="viewer" class="viewer">
-    <button class="close-viewer" onclick="closeViewer()">×</button>
 
-    <button class="viewer-arrow left" onclick="previousPhoto()">‹</button>
+  <!-- =========================
+       04 — LOVE LETTER
+  ========================== -->
 
-    <img id="viewerImage" src="" alt="Memory">
+  <section id="letterScreen" class="screen letter-screen">
 
-    <button class="viewer-arrow right" onclick="nextPhoto()">›</button>
+    <div class="letter-paper">
 
-    <p id="viewerCounter"></p>
+      <div class="letter-corner top-left">
+        ✦
+      </div>
+
+      <div class="letter-corner top-right">
+        ✦
+      </div>
+
+
+      <p class="letter-label">
+        A LETTER FOR AHMIE
+      </p>
+
+
+      <h2>
+        Dear Ahmie,
+      </h2>
+
+
+      <div
+        id="loveLetterText"
+        class="love-letter-text"
+      >
+      </div>
+
+
+      <div class="letter-signature">
+
+        <span>
+          Always,
+        </span>
+
+        <strong>
+          Inshaal
+        </strong>
+
+      </div>
+
+
+      <div class="letter-corner bottom-left">
+        ✦
+      </div>
+
+      <div class="letter-corner bottom-right">
+        ✦
+      </div>
+
+    </div>
+
+
+    <button
+      id="letterNext"
+      class="gold-button hidden"
+    >
+      NEXT →
+    </button>
+
+  </section>
+
+
+
+  <!-- =========================
+       05 — DATING QUESTIONS
+  ========================== -->
+
+  <section id="datingScreen" class="screen">
+
+    <div class="gold-black-card dating-card">
+
+      <p class="eyebrow">
+        CHAPTER V
+      </p>
+
+      <div class="rose">
+        🌹
+      </div>
+
+      <h2>
+        Where are we going?
+      </h2>
+
+      <p>
+        Let's plan our little date.
+      </p>
+
+
+      <div id="datingStage">
+      </div>
+
+
+      <div class="dating-progress">
+
+        <div class="progress-bar">
+          <div id="datingProgress"></div>
+        </div>
+
+        <span id="datingCounter">
+          1 / 5
+        </span>
+
+      </div>
+
+
+      <button
+        id="datingNext"
+        class="gold-button hidden"
+      >
+        NEXT →
+      </button>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =========================
+       06 — OUR MEMORIES
+       30 JPEG PHOTOS
+  ========================== -->
+
+  <section id="memoriesScreen" class="screen memories-screen">
+
+    <div class="memories-container">
+
+      <p class="eyebrow">
+        CHAPTER VI
+      </p>
+
+      <h2>
+        Our Memories
+      </h2>
+
+      <p class="memories-subtitle">
+        30 moments. One story. ❤️
+      </p>
+
+
+      <div
+        id="memoryGrid"
+        class="memory-grid"
+      >
+      </div>
+
+
+      <button
+        id="memoriesNext"
+        class="gold-button"
+      >
+        NEXT →
+      </button>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =========================
+       FULLSCREEN IMAGE VIEWER
+  ========================== -->
+
+  <div
+    id="memoryViewer"
+    class="memory-viewer"
+  >
+
+    <button
+      id="viewerClose"
+      class="viewer-close"
+    >
+      ×
+    </button>
+
+
+    <button
+      id="viewerPrevious"
+      class="viewer-arrow previous"
+    >
+      ‹
+    </button>
+
+
+    <div class="viewer-center">
+
+      <img
+        id="viewerImage"
+        src=""
+        alt="Memory"
+      >
+
+      <p id="viewerCounter">
+        01 / 30
+      </p>
+
+    </div>
+
+
+    <button
+      id="viewerNext"
+      class="viewer-arrow next"
+    >
+      ›
+    </button>
+
   </div>
 
 
-  <!-- DATING QUESTIONS -->
-  <section id="datingScreen" class="screen">
-    <div class="glass-card question-card">
-      <p class="small-title">JUST BETWEEN US 🌹</p>
-      <h1>Dating Questions</h1>
 
-      <p id="datingQuestion"></p>
+  <!-- =========================
+       07 — CINEMATIC ANIMATION
+  ========================== -->
 
-      <div id="datingOptions"></div>
+  <section id="animationScreen" class="screen">
 
-      <p id="datingMessage"></p>
-    </div>
-  </section>
+    <div class="cinematic-scene">
 
+      <div class="cinematic-glow"></div>
 
-  <!-- FINAL -->
-  <section id="finalScreen" class="screen final-screen">
-    <div class="glass-card final-card">
-      <div class="rings">💍</div>
-
-      <p class="small-title">THE END?</p>
-
-      <h1>Inshaal × Ahmie</h1>
-
-      <div class="final-heart">❤️</div>
-
-      <h2>Our story is just beginning...</h2>
-
-      <p>
-        Some memories are meant to be kept forever,
-        and some people are meant to stay forever.
-      </p>
-
-      <div class="final-names">
-        INSHAAL <span>×</span> AHMIE
+      <div class="cinematic-heart">
+        ♡
       </div>
 
-      <p class="forever">∞ Forever ∞</p>
+      <p class="scene-text text-one">
+        Some people...
+      </p>
+
+      <p class="scene-text text-two">
+        become memories.
+      </p>
+
+      <p class="scene-text text-three">
+        Some become home.
+      </p>
+
     </div>
+
   </section>
 
+
+
+  <!-- =========================
+       08 — FINAL
+  ========================== -->
+
+  <section id="finalScreen" class="screen final-screen">
+
+    <div class="final-container">
+
+      <div class="final-symbol">
+        ♡
+      </div>
+
+
+      <p class="eyebrow">
+        THIS ISN'T THE END
+      </p>
+
+
+      <h1>
+        Inshaal
+        <span>×</span>
+        Ahmie
+      </h1>
+
+
+      <div class="gold-divider">
+        ✦
+      </div>
+
+
+      <p class="final-text">
+        Some people are worth choosing,
+        again and again.
+      </p>
+
+
+      <p class="final-text">
+        And some stories deserve another chapter.
+      </p>
+
+
+      <div class="final-signature">
+        Inshaal ♡ Ahmie
+      </div>
+
+
+      <!-- Instagram -->
+
+      <div class="instagram-card">
+
+        <p>
+          MAYBE SEND ME A MESSAGE?
+        </p>
+
+        <a
+          id="instagramLink"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          @AHME-SOLITUDE
+        </a>
+
+      </div>
+
+
+      <div class="infinity">
+        ∞
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =========================
+       JAVASCRIPT
+  ========================== -->
 
   <script src="memories.js"></script>
   <script src="script.js"></script>
