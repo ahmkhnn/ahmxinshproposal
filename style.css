@@ -1,1 +1,374 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
+body {
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  background: #0b0710;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 0, 100, 0.18), transparent 30%),
+    radial-gradient(circle at 80% 80%, rgba(170, 0, 255, 0.15), transparent 30%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Password Screen */
+
+.screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+  padding: 40px 25px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 25px;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.heart {
+  font-size: 60px;
+  animation: heartbeat 1.3s infinite;
+}
+
+.card h1 {
+  margin: 15px 0 10px;
+  font-size: 32px;
+}
+
+.card p {
+  color: #d5cbd5;
+  margin-bottom: 20px;
+}
+
+input {
+  width: 100%;
+  padding: 15px;
+  margin: 8px 0;
+  border: none;
+  outline: none;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 16px;
+}
+
+input::placeholder {
+  color: #aaa;
+}
+
+button {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 13px 22px;
+  border-radius: 12px;
+  margin-top: 10px;
+  font-size: 15px;
+  font-weight: bold;
+  color: white;
+  background: linear-gradient(135deg, #ff176f, #a100ff);
+  transition: 0.25s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(255, 0, 120, 0.35);
+}
+
+#errorMessage {
+  color: #ff547c;
+  min-height: 20px;
+  margin-top: 12px;
+}
+
+/* Main Content */
+
+.hidden {
+  display: none !important;
+}
+
+#mainContent {
+  min-height: 100vh;
+}
+
+header {
+  text-align: center;
+  padding: 70px 20px 40px;
+}
+
+.status {
+  display: inline-block;
+  color: #50ff9b;
+  font-size: 13px;
+  margin-bottom: 15px;
+}
+
+header h1 {
+  font-size: clamp(32px, 8vw, 60px);
+  margin-bottom: 15px;
+}
+
+header p {
+  color: #c8bdc8;
+  font-size: 17px;
+}
+
+/* Hero */
+
+.hero {
+  padding: 20px;
+}
+
+.hero-card {
+  max-width: 850px;
+  margin: auto;
+  padding: 70px 25px;
+  text-align: center;
+  border-radius: 30px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 0, 100, 0.18),
+    rgba(130, 0, 255, 0.15)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.hero-card span {
+  font-size: 45px;
+}
+
+.hero-card h2 {
+  margin: 20px auto 10px;
+  max-width: 650px;
+  font-size: clamp(24px, 5vw, 40px);
+  line-height: 1.3;
+}
+
+.hero-card p {
+  color: #bfb2bf;
+}
+
+/* Sections */
+
+.section {
+  max-width: 900px;
+  margin: auto;
+  padding: 70px 20px;
+}
+
+.section > h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 28px;
+}
+
+/* Love Calculator */
+
+.calculator {
+  max-width: 500px;
+  margin: auto;
+  text-align: center;
+  padding: 30px;
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.calculator span {
+  display: block;
+  margin: 5px;
+  font-size: 25px;
+}
+
+.calculator button {
+  width: 100%;
+}
+
+#loveResult {
+  min-height: 40px;
+  margin-top: 25px;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* Proposal */
+
+.proposal-card {
+  position: relative;
+  min-height: 280px;
+  padding: 45px 20px;
+  text-align: center;
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+
+.proposal-card h3 {
+  font-size: clamp(22px, 5vw, 32px);
+  margin-bottom: 30px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+#noButton {
+  background: #333;
+  transition: left 0.2s, top 0.2s;
+}
+
+#yesMessage {
+  margin-top: 30px;
+  font-size: 20px;
+  color: #ff78aa;
+  font-weight: bold;
+}
+
+/* Memories */
+
+.memories {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.memory-card {
+  padding: 25px;
+  min-height: 180px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: 0.3s ease;
+}
+
+.memory-card:hover {
+  transform: translateY(-7px);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.memory-card .memory-icon {
+  font-size: 35px;
+  margin-bottom: 15px;
+}
+
+.memory-card h3 {
+  margin-bottom: 10px;
+}
+
+.memory-card p {
+  color: #bbb;
+  line-height: 1.5;
+}
+
+/* Footer */
+
+footer {
+  padding: 40px 20px;
+  text-align: center;
+  color: #938894;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+footer p {
+  margin: 7px;
+}
+
+/* Animations */
+
+@keyframes heartbeat {
+  0% {
+    transform: scale(1);
+  }
+
+  25% {
+    transform: scale(1.12);
+  }
+
+  40% {
+    transform: scale(1);
+  }
+
+  60% {
+    transform: scale(1.12);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+  .card {
+    padding: 30px 20px;
+  }
+
+  header {
+    padding-top: 50px;
+  }
+
+  .hero-card {
+    padding: 50px 20px;
+  }
+
+  .section {
+    padding: 50px 15px;
+  }
+
+  .calculator {
+    padding: 22px;
+  }
+}
+.memory-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.memory-image {
+  width: 100%;
+  height: 220px;
+  display: block;
+  object-fit: cover;
+}
+
+.memory-content {
+  padding: 22px;
+}
+
+.memory-card .memory-icon {
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.memory-card h3 {
+  margin-bottom: 8px;
+}
+
+.memory-card p {
+  margin: 0;
+}
