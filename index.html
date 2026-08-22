@@ -1,572 +1,89 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<section id="passwordScreen" class="screen">
 
-  <title>Inshaal × Ahmie</title>
+  <div class="welcome-glow"></div>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <div class="welcome-floating-text">
+    <span>WELCOME</span>
+    <span>TO</span>
+    <span>AHMIE</span>
+    <span>SITE</span>
+  </div>
 
-  <link
-    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&display=swap"
-    rel="stylesheet"
-  >
+  <div class="password-container">
 
-  <link rel="stylesheet" href="style.css">
-</head>
+    <p class="eyebrow">
+      A PRIVATE LITTLE WORLD
+    </p>
 
-<body>
+    <div class="lock-icon">
+      ♡
+    </div>
 
-  <!-- =========================
-       GLOBAL EFFECTS
-  ========================== -->
+    <h1>
+      Welcome to Ahmie Site
+    </h1>
 
-  <div id="particles"></div>
-  <div id="floatingHearts"></div>
+    <p class="password-subtitle">
+      Enter the secret code to continue.
+    </p>
 
+    <!-- LOVE hint -->
 
-  <!-- =========================
-       01 — PASSWORD
-  ========================== -->
+    <div class="love-hint">
 
-  <section id="passwordScreen" class="screen active">
-
-    <div class="password-glow"></div>
-
-    <div class="password-container">
-
-      <p class="eyebrow">
-        A SECRET BETWEEN US
-      </p>
-
-      <div class="lock-icon">
-        ♡
-      </div>
-
-      <h1>
-        Enter Our World
-      </h1>
-
-      <p class="password-subtitle">
-        Four numbers are written in the stars.
-      </p>
-
-
-      <!-- Floating digits + letters -->
-
-      <div id="codeUniverse" class="code-universe">
-
-        <button
-          class="code-orb"
-          data-number="2"
-          data-letter="L"
-        >
-          <span class="number">2</span>
-          <span class="letter">L</span>
-        </button>
-
-        <button
-          class="code-orb"
-          data-number="6"
-          data-letter="O"
-        >
-          <span class="number">6</span>
-          <span class="letter">O</span>
-        </button>
-
-        <button
-          class="code-orb"
-          data-number="2"
-          data-letter="V"
-        >
-          <span class="number">2</span>
-          <span class="letter">V</span>
-        </button>
-
-        <button
-          class="code-orb"
-          data-number="8"
-          data-letter="E"
-        >
-          <span class="number">8</span>
-          <span class="letter">E</span>
-        </button>
-
-      </div>
-
-
-      <div class="love-word">
+      <div>
+        <strong>2</strong>
         <span>L</span>
+      </div>
+
+      <div>
+        <strong>6</strong>
         <span>O</span>
+      </div>
+
+      <div>
+        <strong>2</strong>
         <span>V</span>
+      </div>
+
+      <div>
+        <strong>8</strong>
         <span>E</span>
       </div>
 
+    </div>
 
-      <div id="selectedCode" class="selected-code">
-        <span>_</span>
-        <span>_</span>
-        <span>_</span>
-        <span>_</span>
-      </div>
+    <!-- Password -->
 
+    <div class="password-input-wrap">
 
-      <p id="codeMessage" class="code-message">
-        Choose the numbers in order.
-      </p>
-
-
-      <button
-        id="unlockButton"
-        class="gold-button hidden"
+      <input
+        id="passwordInput"
+        type="password"
+        inputmode="numeric"
+        maxlength="4"
+        autocomplete="off"
+        placeholder="••••"
+        aria-label="Password"
       >
-        NEXT
-        <span>→</span>
-      </button>
+
+      <div class="input-line"></div>
 
     </div>
 
-  </section>
-
-
-
-  <!-- =========================
-       02 — 9 QUESTIONS
-  ========================== -->
-
-  <section id="questionsScreen" class="screen">
-
-    <div class="gold-black-card">
-
-      <p class="eyebrow">
-        CHAPTER II
-      </p>
-
-      <h2 id="questionTitle">
-        I have something to ask you...
-      </h2>
-
-      <p id="questionSubtitle">
-        Be honest with me. ♡
-      </p>
-
-
-      <div id="questionStage">
-      </div>
-
-
-      <div class="question-progress">
-
-        <div class="progress-bar">
-          <div id="questionProgress"></div>
-        </div>
-
-        <span id="questionCounter">
-          1 / 9
-        </span>
-
-      </div>
-
-
-      <button
-        id="questionNext"
-        class="gold-button hidden"
-      >
-        NEXT →
-      </button>
-
-    </div>
-
-  </section>
-
-
-
-  <!-- =========================
-       03 — INSHAAL CHOOSES AHMIE
-  ========================== -->
-
-  <section id="choiceScreen" class="screen">
-
-    <div class="choice-container">
-
-      <p class="eyebrow">
-        ONE LAST CHOICE
-      </p>
-
-      <div class="choice-heart">
-        ♡
-      </div>
-
-      <h2>
-        Who does Inshaal choose?
-      </h2>
-
-      <p>
-        Think carefully...
-      </p>
-
-
-      <div class="choice-area">
-
-        <button
-          id="ahmieButton"
-          class="gold-button choice-button"
-        >
-          AHMIE ❤️
-        </button>
-
-        <button
-          id="nineButton"
-          class="dark-button choice-button"
-        >
-          9
-        </button>
-
-      </div>
-
-
-      <p id="choiceMessage">
-      </p>
-
-    </div>
-
-  </section>
-
-
-
-  <!-- =========================
-       04 — LOVE LETTER
-  ========================== -->
-
-  <section id="letterScreen" class="screen letter-screen">
-
-    <div class="letter-paper">
-
-      <div class="letter-corner top-left">
-        ✦
-      </div>
-
-      <div class="letter-corner top-right">
-        ✦
-      </div>
-
-
-      <p class="letter-label">
-        A LETTER FOR AHMIE
-      </p>
-
-
-      <h2>
-        Dear Ahmie,
-      </h2>
-
-
-      <div
-        id="loveLetterText"
-        class="love-letter-text"
-      >
-      </div>
-
-
-      <div class="letter-signature">
-
-        <span>
-          Always,
-        </span>
-
-        <strong>
-          Inshaal
-        </strong>
-
-      </div>
-
-
-      <div class="letter-corner bottom-left">
-        ✦
-      </div>
-
-      <div class="letter-corner bottom-right">
-        ✦
-      </div>
-
-    </div>
-
+    <p id="codeMessage" class="code-message">
+      Four digits. That's all. ♡
+    </p>
 
     <button
-      id="letterNext"
-      class="gold-button hidden"
+      id="unlockButton"
+      class="gold-button"
+      type="button"
     >
-      NEXT →
-    </button>
-
-  </section>
-
-
-
-  <!-- =========================
-       05 — DATING QUESTIONS
-  ========================== -->
-
-  <section id="datingScreen" class="screen">
-
-    <div class="gold-black-card dating-card">
-
-      <p class="eyebrow">
-        CHAPTER V
-      </p>
-
-      <div class="rose">
-        🌹
-      </div>
-
-      <h2>
-        Where are we going?
-      </h2>
-
-      <p>
-        Let's plan our little date.
-      </p>
-
-
-      <div id="datingStage">
-      </div>
-
-
-      <div class="dating-progress">
-
-        <div class="progress-bar">
-          <div id="datingProgress"></div>
-        </div>
-
-        <span id="datingCounter">
-          1 / 5
-        </span>
-
-      </div>
-
-
-      <button
-        id="datingNext"
-        class="gold-button hidden"
-      >
-        NEXT →
-      </button>
-
-    </div>
-
-  </section>
-
-
-
-  <!-- =========================
-       06 — OUR MEMORIES
-       30 JPEG PHOTOS
-  ========================== -->
-
-  <section id="memoriesScreen" class="screen memories-screen">
-
-    <div class="memories-container">
-
-      <p class="eyebrow">
-        CHAPTER VI
-      </p>
-
-      <h2>
-        Our Memories
-      </h2>
-
-      <p class="memories-subtitle">
-        30 moments. One story. ❤️
-      </p>
-
-
-      <div
-        id="memoryGrid"
-        class="memory-grid"
-      >
-      </div>
-
-
-      <button
-        id="memoriesNext"
-        class="gold-button"
-      >
-        NEXT →
-      </button>
-
-    </div>
-
-  </section>
-
-
-
-  <!-- =========================
-       FULLSCREEN IMAGE VIEWER
-  ========================== -->
-
-  <div
-    id="memoryViewer"
-    class="memory-viewer"
-  >
-
-    <button
-      id="viewerClose"
-      class="viewer-close"
-    >
-      ×
-    </button>
-
-
-    <button
-      id="viewerPrevious"
-      class="viewer-arrow previous"
-    >
-      ‹
-    </button>
-
-
-    <div class="viewer-center">
-
-      <img
-        id="viewerImage"
-        src=""
-        alt="Memory"
-      >
-
-      <p id="viewerCounter">
-        01 / 30
-      </p>
-
-    </div>
-
-
-    <button
-      id="viewerNext"
-      class="viewer-arrow next"
-    >
-      ›
+      UNLOCK
+      <span>→</span>
     </button>
 
   </div>
 
-
-
-  <!-- =========================
-       07 — CINEMATIC ANIMATION
-  ========================== -->
-
-  <section id="animationScreen" class="screen">
-
-    <div class="cinematic-scene">
-
-      <div class="cinematic-glow"></div>
-
-      <div class="cinematic-heart">
-        ♡
-      </div>
-
-      <p class="scene-text text-one">
-        Some people...
-      </p>
-
-      <p class="scene-text text-two">
-        become memories.
-      </p>
-
-      <p class="scene-text text-three">
-        Some become home.
-      </p>
-
-    </div>
-
-  </section>
-
-
-
-  <!-- =========================
-       08 — FINAL
-  ========================== -->
-
-  <section id="finalScreen" class="screen final-screen">
-
-    <div class="final-container">
-
-      <div class="final-symbol">
-        ♡
-      </div>
-
-
-      <p class="eyebrow">
-        THIS ISN'T THE END
-      </p>
-
-
-      <h1>
-        Inshaal
-        <span>×</span>
-        Ahmie
-      </h1>
-
-
-      <div class="gold-divider">
-        ✦
-      </div>
-
-
-      <p class="final-text">
-        Some people are worth choosing,
-        again and again.
-      </p>
-
-
-      <p class="final-text">
-        And some stories deserve another chapter.
-      </p>
-
-
-      <div class="final-signature">
-        Inshaal ♡ Ahmie
-      </div>
-
-
-      <!-- Instagram -->
-
-      <div class="instagram-card">
-
-        <p>
-          MAYBE SEND ME A MESSAGE?
-        </p>
-
-        <a
-          id="instagramLink"
-          href="#"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          @AHME-SOLITUDE
-        </a>
-
-      </div>
-
-
-      <div class="infinity">
-        ∞
-      </div>
-
-    </div>
-
-  </section>
-
-
-
-  <!-- =========================
-       JAVASCRIPT
-  ========================== -->
-
-  <script src="memories.js"></script>
-  <script src="script.js"></script>
-
-</body>
-</html>
+</section>
