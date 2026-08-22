@@ -1,11 +1,9 @@
 const memories = [
-
   "our-memories/Photo01.jpeg",
   "our-memories/Photo02.jpeg",
   "our-memories/Photo03.jpeg",
   "our-memories/Photo04.jpeg",
   "our-memories/Photo05.jpeg",
-
   "our-memories/Photo06.jpeg",
   "our-memories/Photo07.jpeg",
   "our-memories/Photo08.jpeg",
@@ -17,7 +15,6 @@ const memories = [
   "our-memories/Photo13.jpeg",
   "our-memories/Photo14.jpeg",
   "our-memories/Photo15.jpeg",
-
   "our-memories/Photo16.jpeg",
   "our-memories/Photo17.jpeg",
   "our-memories/Photo18.jpeg",
@@ -29,11 +26,9 @@ const memories = [
   "our-memories/Photo23.jpeg",
   "our-memories/Photo24.jpeg",
   "our-memories/Photo25.jpeg",
-
   "our-memories/Photo26.jpeg",
   "our-memories/Photo27.jpeg",
   "our-memories/Photo28.jpeg",
   "our-memories/Photo29.jpeg",
   "our-memories/Photo30.jpeg"
-
 ];
