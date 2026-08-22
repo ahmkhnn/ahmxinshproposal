@@ -1,334 +1,184 @@
 /* =========================================================
-   INSHAAL × AHMIE
-   COMPLETE WEBSITE SCRIPT
-   Premium Interactive Love Experience
+   AHMIE SITE — COMPLETE SCRIPT
+   Flow:
+   Password
+   → 9 Questions
+   → Ahmie Choice
+   → Love Letter
+   → Dating Questions
+   → Our Memories
+   → Fullscreen Viewer
+   → Cinematic Animation
+   → Final
 ========================================================= */
 
 
 /* =========================================================
-   GLOBAL STATE
+   SETTINGS
 ========================================================= */
-
-let currentQuestion = 0;
-let currentDatingQuestion = 0;
-let currentPhoto = 0;
 
 const PASSWORD = "2628";
 
+const INSTAGRAM_USERNAME = "AHME-SOLITUDE";
+
+const INSTAGRAM_URL =
+  "https://www.instagram.com/AHME-SOLITUDE/";
+
 
 /* =========================================================
-   BASIC HELPERS
+   SCREEN SYSTEM
 ========================================================= */
 
-function $(id) {
-  return document.getElementById(id);
-}
-
+const screens = document.querySelectorAll(".screen");
 
 function showScreen(id) {
 
-  document.querySelectorAll(".screen").forEach(screen => {
+  screens.forEach(screen => {
     screen.classList.remove("active");
   });
 
-  const screen = $(id);
+  const target = document.getElementById(id);
 
-  if (!screen) return;
+  if (!target) return;
 
-  screen.classList.add("active");
+  target.classList.add("active");
 
   window.scrollTo({
     top: 0,
     behavior: "smooth"
   });
 
-  createParticles();
+  createGoldBurst();
 }
 
 
 /* =========================================================
-   PARTICLES
+   ELEMENTS
 ========================================================= */
 
-function createParticles() {
+const passwordScreen =
+  document.getElementById("passwordScreen");
 
-  const container = $("particles");
+const passwordInput =
+  document.getElementById("passwordInput");
 
-  if (!container) return;
+const unlockButton =
+  document.getElementById("unlockButton");
 
-  container.innerHTML = "";
+const codeMessage =
+  document.getElementById("codeMessage");
 
-  for (let i = 0; i < 45; i++) {
-
-    const particle = document.createElement("span");
-
-    particle.className = "particle";
-
-    particle.style.left =
-      Math.random() * 100 + "%";
-
-    particle.style.top =
-      Math.random() * 100 + "%";
-
-    particle.style.animationDelay =
-      Math.random() * 6 + "s";
-
-    particle.style.animationDuration =
-      5 + Math.random() * 8 + "s";
-
-    particle.style.opacity =
-      0.15 + Math.random() * 0.65;
-
-    container.appendChild(particle);
-  }
-}
+const passwordContainer =
+  document.querySelector(".password-container");
 
 
 /* =========================================================
-   FLOATING GOLD PARTICLES / HEARTS
+   PASSWORD
 ========================================================= */
 
-function createFloatingHearts(amount = 20) {
+let passwordUnlocked = false;
 
-  const container = $("floatingHearts");
+passwordInput.addEventListener("input", () => {
 
-  if (!container) return;
+  passwordInput.value =
+    passwordInput.value.replace(/\D/g, "");
 
-  for (let i = 0; i < amount; i++) {
-
-    const heart = document.createElement("span");
-
-    heart.className = "floating-heart";
-
-    heart.textContent =
-      Math.random() > 0.5 ? "♡" : "✦";
-
-    heart.style.left =
-      Math.random() * 100 + "vw";
-
-    heart.style.top =
-      85 + Math.random() * 15 + "vh";
-
-    heart.style.fontSize =
-      10 + Math.random() * 22 + "px";
-
-    heart.style.animationDuration =
-      4 + Math.random() * 5 + "s";
-
-    heart.style.animationDelay =
-      Math.random() * 2 + "s";
-
-    container.appendChild(heart);
-
-    setTimeout(() => {
-      heart.remove();
-    }, 10000);
+  if (passwordInput.value.length === 4) {
+    codeMessage.textContent =
+      "Ready? ♡";
+  } else {
+    codeMessage.textContent =
+      "Four digits. That's all. ♡";
   }
-}
+});
 
 
-/* =========================================================
-   01 — PREMIUM PASSWORD
-========================================================= */
+function unlockSite() {
 
-function setupPassword() {
+  const entered =
+    passwordInput.value.trim();
 
-  const input = $("passwordInput");
-  const button = $("unlockButton");
-  const message = $("codeMessage");
+  if (entered !== PASSWORD) {
 
-  if (!input || !button) return;
-
-
-  function resetMessage() {
-
-    setTimeout(() => {
-
-      if (message) {
-
-        message.textContent =
-          "Four digits. That's all. ♡";
-
-        message.classList.remove("success");
-      }
-
-    }, 1800);
-  }
-
-
-  function unlock() {
-
-    const value =
-      input.value.trim();
-
-
-    /* EMPTY */
-
-    if (!value) {
-
-      message.textContent =
-        "Enter the secret code first. ♡";
-
-      input.classList.add("password-error");
-
-      setTimeout(() => {
-        input.classList.remove("password-error");
-      }, 600);
-
-      return;
-    }
-
-
-    /* WRONG */
-
-    if (value !== PASSWORD) {
-
-      message.textContent =
-        "Not quite... try again. ✦";
-
-      message.classList.remove("success");
-
-      input.classList.remove("password-error");
-
-      void input.offsetWidth;
-
-      input.classList.add("password-error");
-
-      input.value = "";
-
-      resetMessage();
-
-      return;
-    }
-
-
-    /* CORRECT */
-
-    message.textContent =
-      "Welcome, Ahmie. ♡";
-
-    message.classList.add("success");
-
-    input.classList.add("password-success");
-
-    button.disabled = true;
-
-    createFloatingHearts(35);
-
-    createGoldBurst();
-
-
-    setTimeout(() => {
-
-      showScreen("questionsScreen");
-
-      currentQuestion = 0;
-
-      loadQuestion();
-
-      input.value = "";
-
-      input.classList.remove("password-success");
-
-      button.disabled = false;
-
-    }, 1600);
-  }
-
-
-  /* BUTTON */
-
-  button.addEventListener(
-    "click",
-    unlock
-  );
-
-
-  /* ENTER KEY */
-
-  input.addEventListener(
-    "keydown",
-    event => {
-
-      if (event.key === "Enter") {
-
-        event.preventDefault();
-
-        unlock();
-      }
-
-    }
-  );
-
-
-  /* ONLY NUMBERS */
-
-  input.addEventListener(
-    "input",
-    () => {
-
-      input.value =
-        input.value.replace(/\D/g, "");
-
-      input.value =
-        input.value.slice(0, 4);
-
-    }
-  );
-}
-
-
-/* =========================================================
-   GOLD BURST
-========================================================= */
-
-function createGoldBurst() {
-
-  const container =
-    $("floatingHearts");
-
-  if (!container) return;
-
-  for (let i = 0; i < 45; i++) {
-
-    const spark =
-      document.createElement("span");
-
-    spark.className =
-      "gold-spark";
-
-    spark.textContent =
-      Math.random() > 0.5
-        ? "✦"
-        : "•";
-
-    spark.style.left =
-      "50vw";
-
-    spark.style.top =
-      "50vh";
-
-    spark.style.setProperty(
-      "--x",
-      `${Math.random() * 500 - 250}px`
+    passwordContainer.classList.remove(
+      "password-error"
     );
 
-    spark.style.setProperty(
-      "--y",
-      `${Math.random() * 500 - 250}px`
+    void passwordContainer.offsetWidth;
+
+    passwordContainer.classList.add(
+      "password-error"
     );
 
-    container.appendChild(spark);
+    codeMessage.textContent =
+      "Not quite... try again. ♡";
 
-    setTimeout(() => {
-      spark.remove();
-    }, 1800);
+    codeMessage.classList.remove(
+      "success"
+    );
+
+    passwordInput.value = "";
+
+    passwordInput.focus();
+
+    return;
   }
+
+
+  passwordUnlocked = true;
+
+  codeMessage.textContent =
+    "Unlocked. Welcome in. ♡";
+
+  codeMessage.classList.add(
+    "success"
+  );
+
+  passwordContainer.classList.add(
+    "password-success"
+  );
+
+  unlockButton.disabled = true;
+
+  createHeartBurst();
+
+
+  setTimeout(() => {
+
+    unlockButton.disabled = false;
+
+    showScreen("questionsScreen");
+
+    startQuestionSystem();
+
+  }, 1100);
 }
 
 
+unlockButton.addEventListener(
+  "click",
+  unlockSite
+);
+
+
+passwordInput.addEventListener(
+  "keydown",
+  event => {
+
+    if (event.key === "Enter") {
+
+      event.preventDefault();
+
+      unlockSite();
+
+    }
+
+  }
+);
+
+
 /* =========================================================
-   02 — NINE QUESTIONS
+   9 QUESTIONS
 ========================================================= */
 
 const questions = [
@@ -337,145 +187,184 @@ const questions = [
     title: "Question One",
     text: "If you could keep one thing forever, what would it be?",
     options: [
-      "A beautiful memory",
-      "A special person",
-      "A feeling that never fades"
+      "A beautiful memory ♡",
+      "A person who feels like home",
+      "A moment that never ends",
+      "All of the above"
     ]
   },
 
   {
     title: "Question Two",
-    text: "What makes a connection truly special?",
+    text: "What's your perfect little escape?",
     options: [
-      "Trust",
-      "Understanding",
-      "Choosing each other"
+      "A peaceful night",
+      "A long drive",
+      "Somewhere beautiful together",
+      "A cozy place with good vibes"
     ]
   },
 
   {
     title: "Question Three",
-    text: "What's better?",
+    text: "What makes a moment unforgettable?",
     options: [
-      "A long conversation at night",
-      "Laughing over something stupid",
-      "Just being together"
+      "The person",
+      "The feeling",
+      "The memories",
+      "Everything about it"
     ]
   },
 
   {
     title: "Question Four",
-    text: "If we could disappear somewhere for one day...",
+    text: "Pick the kind of night you'd choose.",
     options: [
-      "A peaceful beach",
-      "A beautiful city",
-      "Somewhere nobody knows us"
-    ]
-  },
-
-  {
-    title: "Question Five",
-    text: "What's your kind of perfect date?",
-    options: [
-      "A quiet walk",
-      "Dinner together",
+      "Stars and silence ✦",
+      "Music and talking",
+      "City lights",
       "A random adventure"
     ]
   },
 
   {
-    title: "Question Six",
-    text: "Would you keep the silly memories too?",
+    title: "Question Five",
+    text: "What matters most between two people?",
     options: [
-      "Of course",
-      "Especially those",
-      "Every single one"
+      "Trust",
+      "Understanding",
+      "Effort",
+      "Never giving up"
+    ]
+  },
+
+  {
+    title: "Question Six",
+    text: "If we could go anywhere, where would you go?",
+    options: [
+      "Mountains",
+      "Beach",
+      "A beautiful city",
+      "Somewhere neither of us has seen"
     ]
   },
 
   {
     title: "Question Seven",
-    text: "What's more important?",
+    text: "Choose one little thing.",
     options: [
-      "Words",
-      "Actions",
-      "Both"
+      "Late-night conversations",
+      "Random pictures",
+      "Sharing food",
+      "Laughing over nothing"
     ]
   },
 
   {
     title: "Question Eight",
-    text: "If someone genuinely chooses you...",
+    text: "What's stronger?",
     options: [
-      "I'd appreciate it",
-      "I'd choose them too",
-      "I'd never forget it"
+      "Time",
+      "Distance",
+      "Feelings",
+      "A genuine connection"
     ]
   },
 
   {
     title: "Question Nine",
-    text: "And if this little story continued...",
+    text: "And finally... who are you choosing?",
     options: [
-      "I'd keep reading",
-      "Maybe...",
-      "Let's see where it goes ♡"
+      "Someone special",
+      "Your favourite person",
+      "The person reading this",
+      "You already know ♡"
     ]
   }
 
 ];
 
 
-function loadQuestion() {
+let currentQuestion = 0;
 
-  const data =
+let selectedQuestionAnswer = null;
+
+const questionCounter =
+  document.getElementById("questionCounter");
+
+const questionProgress =
+  document.getElementById("questionProgress");
+
+const questionTitle =
+  document.getElementById("questionTitle");
+
+const questionSubtitle =
+  document.getElementById("questionSubtitle");
+
+const questionStage =
+  document.getElementById("questionStage");
+
+const questionNext =
+  document.getElementById("questionNext");
+
+
+function startQuestionSystem() {
+
+  currentQuestion = 0;
+
+  selectedQuestionAnswer = null;
+
+  renderQuestion();
+
+}
+
+
+function renderQuestion() {
+
+  const question =
     questions[currentQuestion];
 
-  const title =
-    $("questionTitle");
-
-  const subtitle =
-    $("questionSubtitle");
-
-  const counter =
-    $("questionCounter");
-
-  const progress =
-    $("questionProgress");
-
-  const stage =
-    $("questionStage");
-
-  const next =
-    $("questionNext");
+  if (!question) return;
 
 
-  if (!data) return;
+  selectedQuestionAnswer = null;
 
 
-  title.textContent =
-    data.title;
-
-  subtitle.textContent =
-    data.text;
-
-  counter.textContent =
+  questionCounter.textContent =
     `${currentQuestion + 1} / ${questions.length}`;
 
-  progress.style.width =
-    `${((currentQuestion + 1) /
-       questions.length) * 100}%`;
 
-  stage.innerHTML = "";
-
-  next.classList.add("hidden");
+  const progress =
+    ((currentQuestion + 1) /
+      questions.length) * 100;
 
 
-  data.options.forEach(
+  questionProgress.style.width =
+    `${progress}%`;
+
+
+  questionTitle.textContent =
+    question.title;
+
+
+  questionSubtitle.textContent =
+    question.text;
+
+
+  questionStage.innerHTML = "";
+
+  questionNext.classList.add(
+    "hidden"
+  );
+
+
+  question.options.forEach(
     (option, index) => {
 
       const button =
         document.createElement("button");
+
+      button.type = "button";
 
       button.className =
         "question-option";
@@ -483,15 +372,16 @@ function loadQuestion() {
       button.textContent =
         option;
 
+
       button.style.animationDelay =
-        `${index * 100}ms`;
+        `${index * 80}ms`;
 
 
       button.addEventListener(
         "click",
         () => {
 
-          stage
+          document
             .querySelectorAll(
               ".question-option"
             )
@@ -507,121 +397,123 @@ function loadQuestion() {
           );
 
 
-          next.classList.remove(
+          selectedQuestionAnswer =
+            index;
+
+
+          questionNext.classList.remove(
             "hidden"
           );
 
+          createSmallBurst(button);
 
-          createFloatingHearts(5);
         }
       );
 
 
-      stage.appendChild(button);
+      questionStage.appendChild(
+        button
+      );
+
     }
   );
+
 }
 
 
-if ($("questionNext")) {
+questionNext.addEventListener(
+  "click",
+  () => {
 
-  $("questionNext").addEventListener(
-    "click",
-    () => {
+    if (selectedQuestionAnswer === null) {
+      return;
+    }
+
+
+    if (
+      currentQuestion <
+      questions.length - 1
+    ) {
 
       currentQuestion++;
 
+      renderQuestion();
 
-      if (
-        currentQuestion >=
-        questions.length
-      ) {
-
-        showScreen("choiceScreen");
-
-        setupChoice();
-
-        return;
-      }
-
-
-      loadQuestion();
+      return;
     }
-  );
-}
+
+
+    showScreen("choiceScreen");
+
+  }
+);
 
 
 /* =========================================================
-   03 — INSHAAL / AHMIE CHOICE
+   AHMIE CHOICE
 ========================================================= */
 
-function setupChoice() {
+const ahmieButton =
+  document.getElementById("ahmieButton");
 
-  const ahmie =
-    $("ahmieButton");
+const nineButton =
+  document.getElementById("nineButton");
 
-  const nine =
-    $("nineButton");
-
-  const message =
-    $("choiceMessage");
+const choiceMessage =
+  document.getElementById("choiceMessage");
 
 
-  if (!ahmie || !nine) return;
+let nineStage = 0;
 
 
-  let phase = 0;
+ahmieButton.addEventListener(
+  "click",
+  () => {
 
+    choiceMessage.textContent =
+      "I knew it. ♡";
 
-  ahmie.onclick = () => {
-
-    message.textContent =
-      "You chose wisely. ♡";
-
-    ahmie.classList.add(
+    ahmieButton.classList.add(
       "choice-success"
     );
 
-    createFloatingHearts(35);
+    createHeartBurst();
 
 
     setTimeout(() => {
 
       showScreen("letterScreen");
 
-      startLoveLetter();
+      startLetter();
 
-    }, 1300);
-  };
+    }, 1200);
 
-
-  nine.onclick = () => {
-
-    if (phase === 0) {
-
-      phase = 1;
-
-      message.textContent =
-        "Are you really sure? 👀";
-
-      nine.textContent =
-        "Are you sure?";
-
-      return;
-    }
+  }
+);
 
 
-    if (phase === 1) {
+/*
+   The 9 button stays part of the interaction.
+   It changes its message/stage instead of
+   simply disappearing.
+*/
 
-      phase = 2;
+nineButton.addEventListener(
+  "click",
+  () => {
 
-      message.textContent =
-        "Think again...";
+    nineStage++;
 
-      nine.textContent =
-        "ARE YOU REALLY SURE?";
 
-      nine.classList.add(
+    if (nineStage === 1) {
+
+      nineButton.textContent =
+        "ARE YOU SURE?";
+
+      choiceMessage.textContent =
+        "Hmm... think again. ♡";
+
+      nineButton.classList.add(
         "choice-pulse"
       );
 
@@ -629,303 +521,357 @@ function setupChoice() {
     }
 
 
-    if (phase === 2) {
+    if (nineStage === 2) {
 
-      phase = 3;
+      nineButton.textContent =
+        "NOPE ♡";
 
-      message.textContent =
-        "Okay okay... one last chance. 😂";
-
-      nine.textContent =
-        "ONE LAST TIME";
+      choiceMessage.textContent =
+        "That answer doesn't work here. 😌";
 
       return;
     }
 
 
-    if (phase === 3) {
+    if (nineStage === 3) {
 
-      message.textContent =
-        "Fine... choose Ahmie. ❤️";
+      nineButton.textContent =
+        "TRY AGAIN";
 
-      nine.textContent =
-        "CHOOSE AHMIE";
-
-      nine.classList.remove(
-        "choice-pulse"
-      );
-
-      phase = 4;
+      choiceMessage.textContent =
+        "You still have one obvious choice.";
 
       return;
     }
 
 
-    if (phase === 4) {
+    nineButton.textContent =
+      "CHOOSE AHMIE ♡";
 
-      ahmie.click();
+    choiceMessage.textContent =
+      "Okay... now you know what to do. ♡";
 
-    }
+    nineButton.classList.remove(
+      "choice-pulse"
+    );
 
-  };
-}
+  }
+);
 
 
 /* =========================================================
-   04 — LOVE LETTER
+   LOVE LETTER
 ========================================================= */
 
-const loveLetter = `Tum jisey bhi choose karo,
-mere liye tum tum hi ho.
+const loveLetterText =
+  document.getElementById("loveLetterText");
 
-Mere liye tum sirf koi ek person nahi ho.
-Tum meri woh dost ho jiske saath
-main hamesha ek connection feel karta rahunga.
-
-Best Friend Forever. ♡
-
-Aur haan...
-is letter ko ignore mat karna.
-Aur blush bhi mat karna. :)
-
-Kuch bhi ho jaye,
-main tumhe simply chhor kar nahi ja sakta.
-
-Pehle jo hua...
-woh meri galtiyon ka bhi hissa tha.
-
-Ek waqt tha jab maine socha tha
-ke shayad tum wapas aa jaogi.
-Maine wait kiya...
-aur jab tum nahi aayi,
-toh bohat si baatein dil mein reh gayin.
-
-Lekin ab main sirf words nahi bolna chahta.
-
-Ab main apne efforts se dikhana chahta hoon
-ke tum mere liye kitni important ho.
-
-Ab main tumhare saath rahunga.
-Tumhare efforts ko appreciate karunga.
-Aur apni taraf se bhi effort dikhata rahunga.
-
-Main chahta hoon ke jo bhi ho,
-hum ek doosre ke liye genuinely present rahein.
-
-Tumhari choice hamesha tumhari hai.
-Main uski respect karunga.
-
-Lekin mere liye ek baat hamesha same rahegi...
-
-Tum tum hi ho.
-
-Aur agar zindagi ne humein
-phir se ek beautiful chapter diya,
-toh is baar main us chapter ko
-sirf dekhna nahi chahta...
-
-main usay properly live karna chahta hoon.
-
-— Inshaal ♡`;
+const letterNext =
+  document.getElementById("letterNext");
 
 
-function startLoveLetter() {
+const letterText = `
+Ahmie,
 
-  const element =
-    $("loveLetterText");
+I don't really know how to put everything I feel
+into a few perfect words, but maybe I don't need
+perfect words. Maybe I just need to be honest.
 
-  const next =
-    $("letterNext");
+So first of all...
 
-  if (!element) return;
+Please don't ignore this.
+And please don't blush and run away. ♡
+
+You can choose whoever you want,
+you can go wherever you want,
+and life can take us in a hundred different directions...
+
+but for me, you are still you.
+
+The person I care about.
+The person I can call my best friend.
+The person I want to keep as my
+best friend forever.
+
+Whatever happens, I don't want to simply
+walk away and pretend none of it mattered.
+
+There was a time when you went away.
+I made mistakes too.
+I thought maybe one day you'd come back,
+and when you didn't, I had to understand
+that I couldn't just sit there waiting.
+
+But now?
+
+I want to show you my effort.
+
+Not with empty promises.
+Not with words that disappear tomorrow.
+
+With consistency.
+With time.
+With being there.
+With actually trying.
+
+I don't want to force anything.
+I just don't want to give up on something
+that still means this much to me.
+
+So wherever life takes us,
+whatever you choose,
+I hope you always know one thing:
+
+I'll still be your best friend.
+
+And if you ever look back at this little website,
+I hope it makes you smile.
+
+Because I made it for you.
+
+— Inshaal ♡
+`;
 
 
-  element.textContent = "";
+function startLetter() {
 
-  if (next) {
-    next.classList.add("hidden");
-  }
+  loveLetterText.textContent = "";
 
+  letterNext.classList.add(
+    "hidden"
+  );
+
+
+  typeWriter(
+    loveLetterText,
+    letterText.trim(),
+    18,
+    () => {
+
+      setTimeout(() => {
+
+        letterNext.classList.remove(
+          "hidden"
+        );
+
+      }, 600);
+
+    }
+  );
+
+}
+
+
+function typeWriter(
+  element,
+  text,
+  speed,
+  callback
+) {
 
   let index = 0;
 
 
-  const typing =
-    setInterval(() => {
+  function write() {
 
-      element.textContent +=
-        loveLetter[index];
+    if (index >= text.length) {
 
-      index++;
+      if (callback) callback();
 
-
-      if (
-        index >=
-        loveLetter.length
-      ) {
-
-        clearInterval(typing);
+      return;
+    }
 
 
-        setTimeout(() => {
+    element.textContent +=
+      text.charAt(index);
 
-          if (next) {
-            next.classList.remove(
-              "hidden"
-            );
-          }
-
-          createFloatingHearts(15);
-
-        }, 900);
-      }
-
-    }, 16);
-}
+    index++;
 
 
-if ($("letterNext")) {
+    let delay = speed;
 
-  $("letterNext").addEventListener(
-    "click",
-    () => {
 
-      showScreen("datingScreen");
+    if (
+      text.charAt(index - 1) === "."
+      ||
+      text.charAt(index - 1) === "!"
+      ||
+      text.charAt(index - 1) === "?"
+    ) {
 
-      currentDatingQuestion = 0;
-
-      loadDatingQuestion();
+      delay = speed * 7;
 
     }
-  );
+
+
+    setTimeout(
+      write,
+      delay
+    );
+
+  }
+
+
+  write();
+
 }
+
+
+letterNext.addEventListener(
+  "click",
+  () => {
+
+    showScreen("datingScreen");
+
+    startDating();
+
+  }
+);
 
 
 /* =========================================================
-   05 — DATING QUESTIONS
+   DATING QUESTIONS
 ========================================================= */
 
 const datingQuestions = [
 
   {
     question:
-      "Where should our first little adventure be?",
-
+      "Where should we go for a first little adventure?",
     options: [
-      "A quiet café ☕",
-      "A long evening walk 🌙",
-      "Somewhere completely random ✨"
+      "A cozy café ☕",
+      "A long drive ✦",
+      "A beautiful dinner",
+      "Somewhere completely random"
     ]
   },
 
   {
     question:
-      "What are we doing first?",
-
+      "What kind of evening sounds perfect?",
     options: [
-      "Getting food 🍕",
-      "Taking pictures 📸",
-      "Talking for hours"
+      "City lights",
+      "Stars and quiet",
+      "Movies and food",
+      "Walking and talking"
     ]
   },
 
   {
     question:
-      "What's the perfect evening?",
-
+      "What should we definitely do?",
     options: [
-      "City lights 🌃",
-      "Stars and silence ✨",
-      "Laughing until midnight"
+      "Take pictures",
+      "Try new food",
+      "Explore somewhere new",
+      "Laugh until we forget the time"
     ]
   },
 
   {
     question:
-      "What should we never forget?",
-
+      "What should our day end with?",
     options: [
-      "The little moments",
-      "The stupid jokes 😂",
-      "How we started"
+      "A sunset",
+      "A late-night conversation",
+      "Dessert",
+      "One more adventure"
     ]
   },
 
   {
     question:
-      "And if the date goes perfectly...",
-
-
+      "And the most important question...",
     options: [
-      "One more hour ❤️",
-      "One more day",
-      "Let's plan the next one"
+      "When are we going? ♡",
+      "Soon.",
+      "Very soon.",
+      "You choose the date. ✦"
     ]
   }
 
 ];
 
 
-function loadDatingQuestion() {
+let currentDatingQuestion = 0;
 
-  const data =
+let selectedDatingAnswer = null;
+
+
+const datingCounter =
+  document.getElementById("datingCounter");
+
+const datingProgress =
+  document.getElementById("datingProgress");
+
+const datingStage =
+  document.getElementById("datingStage");
+
+const datingNext =
+  document.getElementById("datingNext");
+
+
+function startDating() {
+
+  currentDatingQuestion = 0;
+
+  selectedDatingAnswer = null;
+
+  renderDatingQuestion();
+
+}
+
+
+function renderDatingQuestion() {
+
+  const item =
     datingQuestions[
       currentDatingQuestion
     ];
 
 
-  const stage =
-    $("datingStage");
-
-  const counter =
-    $("datingCounter");
-
-  const progress =
-    $("datingProgress");
-
-  const next =
-    $("datingNext");
+  if (!item) return;
 
 
-  if (!data) return;
+  selectedDatingAnswer = null;
 
 
-  stage.innerHTML = "";
-
-  next.classList.add(
-    "hidden"
-  );
-
-
-  counter.textContent =
+  datingCounter.textContent =
     `${currentDatingQuestion + 1} / ${datingQuestions.length}`;
 
 
-  progress.style.width =
-    `${((currentDatingQuestion + 1) /
-       datingQuestions.length) * 100}%`;
+  const progress =
+    ((currentDatingQuestion + 1) /
+      datingQuestions.length) * 100;
 
 
-  const heading =
-    document.createElement("h3");
+  datingProgress.style.width =
+    `${progress}%`;
 
-  heading.textContent =
-    data.question;
 
-  heading.className =
+  datingStage.innerHTML = "";
+
+
+  const title =
+    document.createElement("h2");
+
+  title.className =
     "dating-question-title";
 
-
-  stage.appendChild(
-    heading
-  );
+  title.textContent =
+    item.question;
 
 
-  data.options.forEach(
+  datingStage.appendChild(title);
+
+
+  item.options.forEach(
     (option, index) => {
 
       const button =
         document.createElement("button");
+
+      button.type = "button";
 
       button.className =
         "dating-option";
@@ -933,15 +879,16 @@ function loadDatingQuestion() {
       button.textContent =
         option;
 
+
       button.style.animationDelay =
-        `${index * 100}ms`;
+        `${index * 90}ms`;
 
 
       button.addEventListener(
         "click",
         () => {
 
-          stage
+          document
             .querySelectorAll(
               ".dating-option"
             )
@@ -959,161 +906,266 @@ function loadDatingQuestion() {
           );
 
 
-          next.classList.remove(
+          selectedDatingAnswer =
+            index;
+
+
+          datingNext.classList.remove(
             "hidden"
           );
 
+          createSmallBurst(button);
 
-          createFloatingHearts(6);
         }
       );
 
 
-      stage.appendChild(
+      datingStage.appendChild(
         button
       );
+
     }
   );
+
+
+  datingNext.classList.add(
+    "hidden"
+  );
+
 }
 
 
-if ($("datingNext")) {
+datingNext.addEventListener(
+  "click",
+  () => {
 
-  $("datingNext").addEventListener(
-    "click",
-    () => {
+    if (selectedDatingAnswer === null) {
+      return;
+    }
+
+
+    if (
+      currentDatingQuestion <
+      datingQuestions.length - 1
+    ) {
 
       currentDatingQuestion++;
 
+      renderDatingQuestion();
 
-      if (
-        currentDatingQuestion >=
-        datingQuestions.length
-      ) {
+      return;
 
-        showScreen(
-          "memoriesScreen"
-        );
-
-        loadMemories();
-
-        return;
-      }
-
-
-      loadDatingQuestion();
     }
-  );
-}
+
+
+    showScreen("memoriesScreen");
+
+    initializeMemories();
+
+  }
+);
 
 
 /* =========================================================
-   06 — OUR MEMORIES
+   MEMORIES
 ========================================================= */
 
-function loadMemories() {
+const memoryGrid =
+  document.getElementById("memoryGrid");
 
-  const grid =
-    $("memoryGrid");
-
-  if (!grid) return;
-
-
-  grid.innerHTML = "";
+const memoriesNext =
+  document.getElementById("memoriesNext");
 
 
-  if (
-    typeof memories ===
-      "undefined" ||
-    !Array.isArray(memories) ||
-    memories.length === 0
-  ) {
+let memoriesInitialized = false;
 
-    grid.innerHTML = `
-      <div class="memory-empty">
-        <span>♡</span>
-        <p>Our memories are waiting...</p>
-      </div>
-    `;
+let currentMemoryIndex = 0;
 
+
+/*
+   memories.js must provide:
+
+   const memories = [
+      "our-memories/Photo01.jpeg",
+      ...
+   ];
+*/
+
+
+function initializeMemories() {
+
+  if (memoriesInitialized) {
     return;
   }
 
 
+  memoriesInitialized = true;
+
+  renderMemories();
+
+}
+
+
+function renderMemories() {
+
+  memoryGrid.innerHTML = "";
+
+
+  if (
+    typeof memories === "undefined"
+    ||
+    !Array.isArray(memories)
+  ) {
+
+    const error =
+      document.createElement("p");
+
+    error.textContent =
+      "Memory photos are waiting to be added.";
+
+    error.style.color =
+      "rgba(245,234,208,.55)";
+
+    error.style.gridColumn =
+      "1 / -1";
+
+    memoryGrid.appendChild(
+      error
+    );
+
+    return;
+
+  }
+
+
   memories.forEach(
-    (photo, index) => {
+    (src, index) => {
 
       const card =
-        document.createElement(
-          "button"
-        );
+        document.createElement("button");
 
-      card.type =
-        "button";
+      card.type = "button";
 
       card.className =
         "memory-card";
 
 
-      card.innerHTML = `
+      const image =
+        document.createElement("img");
 
-        <img
-          src="${photo}"
-          alt="Memory ${index + 1}"
-          loading="lazy"
-        >
+      image.src = src;
 
-        <span class="memory-overlay"></span>
+      image.alt =
+        `Our Memory ${index + 1}`;
 
-        <span class="memory-number">
-          MEMORY
-          ${String(index + 1)
-            .padStart(2, "0")}
-        </span>
+      image.loading =
+        index < 6
+          ? "eager"
+          : "lazy";
 
-      `;
+
+      image.addEventListener(
+        "error",
+        () => {
+
+          card.classList.add(
+            "memory-error"
+          );
+
+          image.alt =
+            "Memory image unavailable";
+
+        }
+      );
+
+
+      const overlay =
+        document.createElement("div");
+
+      overlay.className =
+        "memory-overlay";
+
+
+      const number =
+        document.createElement("span");
+
+      number.className =
+        "memory-number";
+
+      number.textContent =
+        String(index + 1)
+          .padStart(2,"0");
+
+
+      card.appendChild(image);
+
+      card.appendChild(overlay);
+
+      card.appendChild(number);
 
 
       card.addEventListener(
         "click",
         () => {
 
-          openViewer(index);
+          openMemory(index);
 
         }
       );
 
 
-      grid.appendChild(card);
+      memoryGrid.appendChild(
+        card
+      );
+
     }
   );
+
 }
 
 
 /* =========================================================
-   FULLSCREEN MEMORY VIEWER
+   MEMORY VIEWER
 ========================================================= */
 
-function openViewer(index) {
+const memoryViewer =
+  document.getElementById("memoryViewer");
+
+const viewerImage =
+  document.getElementById("viewerImage");
+
+const viewerCounter =
+  document.getElementById("viewerCounter");
+
+const viewerClose =
+  document.getElementById("viewerClose");
+
+const viewerPrevious =
+  document.getElementById("viewerPrevious");
+
+const viewerNext =
+  document.getElementById("viewerNext");
+
+
+function openMemory(index) {
 
   if (
-    typeof memories ===
-      "undefined" ||
+    typeof memories === "undefined"
+    ||
     !memories[index]
   ) {
     return;
   }
 
 
-  currentPhoto =
+  currentMemoryIndex =
     index;
 
 
-  const viewer =
-    $("memoryViewer");
+  updateMemoryViewer();
 
 
-  viewer.classList.add(
+  memoryViewer.classList.add(
     "active"
   );
 
@@ -1121,204 +1173,148 @@ function openViewer(index) {
   document.body.style.overflow =
     "hidden";
 
-
-  updateViewer();
 }
 
 
-function closeViewer() {
+function updateMemoryViewer() {
 
-  const viewer =
-    $("memoryViewer");
-
-  if (!viewer) return;
+  const src =
+    memories[currentMemoryIndex];
 
 
-  viewer.classList.remove(
-    "active"
-  );
-
-
-  document.body.style.overflow =
-    "";
-}
-
-
-function updateViewer() {
-
-  if (
-    typeof memories ===
-      "undefined" ||
-    !memories[currentPhoto]
-  ) {
-    return;
-  }
-
-
-  const image =
-    $("viewerImage");
-
-  const counter =
-    $("viewerCounter");
-
-
-  image.style.opacity =
+  viewerImage.style.opacity =
     "0";
 
 
-  image.src =
-    memories[currentPhoto];
+  viewerImage.src =
+    src;
 
 
-  image.onload = () => {
+  viewerImage.onload = () => {
 
-    image.style.transition =
-      "opacity .45s ease";
-
-    image.style.opacity =
+    viewerImage.style.opacity =
       "1";
 
   };
 
 
-  counter.textContent =
-    `${String(currentPhoto + 1)
-      .padStart(2, "0")} / ${
-      String(memories.length)
-        .padStart(2, "0")
-    }`;
+  viewerCounter.textContent =
+    `${String(currentMemoryIndex + 1).padStart(2,"0")} / ${String(memories.length).padStart(2,"0")}`;
+
 }
 
 
-function nextPhoto() {
+function closeMemoryViewer() {
+
+  memoryViewer.classList.remove(
+    "active"
+  );
+
+  document.body.style.overflow =
+    "";
+
+}
+
+
+function nextMemory() {
 
   if (
-    typeof memories ===
-      "undefined" ||
-    memories.length === 0
+    typeof memories === "undefined"
+    ||
+    !memories.length
   ) {
     return;
   }
 
 
-  currentPhoto++;
-
-  if (
-    currentPhoto >=
-    memories.length
-  ) {
-    currentPhoto = 0;
-  }
+  currentMemoryIndex =
+    (currentMemoryIndex + 1)
+    % memories.length;
 
 
-  updateViewer();
+  updateMemoryViewer();
+
 }
 
 
-function previousPhoto() {
+function previousMemory() {
 
   if (
-    typeof memories ===
-      "undefined" ||
-    memories.length === 0
+    typeof memories === "undefined"
+    ||
+    !memories.length
   ) {
     return;
   }
 
 
-  currentPhoto--;
+  currentMemoryIndex =
+    (
+      currentMemoryIndex -
+      1 +
+      memories.length
+    )
+    % memories.length;
 
-  if (
-    currentPhoto < 0
-  ) {
-    currentPhoto =
-      memories.length - 1;
+
+  updateMemoryViewer();
+
+}
+
+
+viewerClose.addEventListener(
+  "click",
+  closeMemoryViewer
+);
+
+
+viewerNext.addEventListener(
+  "click",
+  nextMemory
+);
+
+
+viewerPrevious.addEventListener(
+  "click",
+  previousMemory
+);
+
+
+memoryViewer.addEventListener(
+  "click",
+  event => {
+
+    if (
+      event.target ===
+      memoryViewer
+    ) {
+
+      closeMemoryViewer();
+
+    }
+
   }
+);
 
 
-  updateViewer();
-}
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if (
+      !memoryViewer.classList.contains(
+        "active"
+      )
+    ) {
+      return;
+    }
 
 
-if ($("viewerClose")) {
+    if (event.key === "Escape") {
 
-  $("viewerClose").addEventListener(
-    "click",
-    closeViewer
-  );
-}
+      closeMemoryViewer();
+
+    }
 
 
-if ($("viewerNext")) {
-
-  $("viewerNext").addEventListener(
-    "click",
-    nextPhoto
-  );
-}
-
-
-if ($("viewerPrevious")) {
-
-  $("viewerPrevious")
-    .addEventListener(
-      "click",
-      previousPhoto
-    );
-}
-
-
-if ($("memoryViewer")) {
-
-  $("memoryViewer")
-    .addEventListener(
-      "click",
-      event => {
-
-        if (
-          event.target ===
-          $("memoryViewer")
-        ) {
-
-          closeViewer();
-
-        }
-
-      }
-    );
-}
-
-
-/* =========================================================
-   PHOTO SWIPE
-========================================================= */
-
-let touchStartX = 0;
-let touchEndX = 0;
-
-
-if ($("memoryViewer")) {
-
-  $("memoryViewer")
-    .addEventListener(
-      "touchstart",
-      event => {
-
-        touchStartX =
-          event.changedTouches[0]
-            .screenX;
-
-      },
-      {
-        passive: true
-      }
-    );
-
-
-  $("memoryViewer")
-    .addEventListener(
-      "touchend",
-      event => {
-
-        touchEndX =
-          event.change
+    if (event.key === "ArrowRight")
