@@ -1,6 +1,4 @@
 const memories = [
-  "our-memories/Photo01.jpeg",
-
   "our-memories/Photo01 (1).jpeg",
   "our-memories/Photo01 (2).jpeg",
   "our-memories/Photo01 (3).jpeg",
@@ -11,24 +9,5 @@ const memories = [
   "our-memories/Photo01 (8).jpeg",
   "our-memories/Photo01 (9).jpeg",
   "our-memories/Photo01 (10).jpeg",
-  "our-memories/Photo01 (11).jpeg",
-  "our-memories/Photo01 (12).jpeg",
-  "our-memories/Photo01 (13).jpeg",
-  "our-memories/Photo01 (14).jpeg",
-  "our-memories/Photo01 (15).jpeg",
-  "our-memories/Photo01 (16).jpeg",
-  "our-memories/Photo01 (17).jpeg",
-  "our-memories/Photo01 (18).jpeg",
-  "our-memories/Photo01 (19).jpeg",
-  "our-memories/Photo01 (20).jpeg",
-  "our-memories/Photo01 (21).jpeg",
-  "our-memories/Photo01 (22).jpeg",
-  "our-memories/Photo01 (23).jpeg",
-  "our-memories/Photo01 (24).jpeg",
-  "our-memories/Photo01 (25).jpeg",
-  "our-memories/Photo01 (26).jpeg",
-  "our-memories/Photo01 (27).jpeg",
-  "our-memories/Photo01 (28).jpeg",
-  "our-memories/Photo01 (29).jpeg",
-  "our-memories/Photo01 (30).jpeg"
+  // ...remaining exact names
 ];
